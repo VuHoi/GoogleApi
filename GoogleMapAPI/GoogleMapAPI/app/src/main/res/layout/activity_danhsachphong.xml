@@ -7,15 +7,7 @@
     android:orientation="vertical"
     android:background="#ffffff"
     tools:context="com.example.vukhachoi.musicapp.danhsachphong">
-    <android.support.v7.widget.Toolbar
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#2196F3"
 
-        android:minHeight="?attr/actionBarSize" >
-    </android.support.v7.widget.Toolbar>
     <LinearLayout
         android:paddingLeft="20dp"
         android:paddingTop="10dp"
@@ -104,81 +96,11 @@
             android:textSize="17dp"
             android:text="16:30"></TextView>
     </LinearLayout>
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:paddingTop="10dp" >
-
-        <RadioGroup
-            android:id="@+id/radioGroup1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:gravity="center"
-            android:padding="7dp"
-            android:orientation="horizontal" >
-
-            <RadioButton
-                android:id="@+id/radioAndroid"
-                android:layout_width="match_parent"
-                android:layout_height="70dp"
-                android:layout_weight="1"
-                android:background="@drawable/rbtn_selector"
-                android:button="@drawable/home"
-
-
-                android:checked="true"
-
-                android:padding="5dp"
-                ></RadioButton>
-
-            <RadioButton
-                android:id="@+id/radioiPhone"
-                android:layout_width="match_parent"
-                android:layout_height="70dp"
-                android:layout_weight="1"
-                android:background="@drawable/rbtn_selector"
-                android:button="@drawable/home"
-                android:gravity="center"
-                android:padding="5dp"
-                android:text="iPhone"></RadioButton>
-
-            <RadioButton
-
-                android:layout_width="match_parent"
-                android:layout_height="70dp"
-                android:layout_weight="1"
-                android:background="@drawable/rbtn_selector"
-                android:button="@drawable/home"
-                android:gravity="center"
-                android:padding="5dp"
-                android:text="Windows"></RadioButton>
-            <RadioButton
-
-                android:layout_width="match_parent"
-                android:layout_height="70dp"
-                android:layout_weight="1"
-                android:background="@drawable/rbtn_selector"
-                android:button="@drawable/home"
-                android:gravity="center"
-                android:padding="5dp"
-                android:text="Windows"></RadioButton>
-            <RadioButton
-
-                android:layout_width="match_parent"
-                android:layout_height="70dp"
-                android:layout_weight="1"
-                android:background="@drawable/rbtn_selector"
-                android:button="@drawable/home"
-
-                android:buttonTintMode="screen"
-
-                android:gravity="center"
-                android:padding="5dp"
-                ></RadioButton>
-        </RadioGroup>
-
-    </LinearLayout>
+<android.support.design.widget.BottomNavigationView
+    android:layout_width="wrap_content"
+    android:id="@+id/navi"
+    style="@style/AppTheme"
+    android:layout_height="wrap_content"
+    app:menu="@menu/testnavi"></android.support.design.widget.BottomNavigationView>
 
 </LinearLayout>
