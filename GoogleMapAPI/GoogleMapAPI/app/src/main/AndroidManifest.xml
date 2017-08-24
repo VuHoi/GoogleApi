@@ -20,7 +20,7 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_api_key" />
 
-        <activity android:name=".Index">
+        <activity android:name=".IndexUSer">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -32,9 +32,16 @@
         <activity android:name=".listroom" />
         <activity android:name=".listdish" />
         <activity android:name=".MakeaReservation" />
+
+        <activity android:name=".Index" />
+        <activity android:name=".Info_member" />
+        <activity android:name=".profile" />
+        <activity android:name=".register"></activity>
+
         <activity android:name=".update_member" />
         <activity android:name=".login" />
         <activity android:name=".changepass"></activity>
+
     </application>
 
 </manifest>
