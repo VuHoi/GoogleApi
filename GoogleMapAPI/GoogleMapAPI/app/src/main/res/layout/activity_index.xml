@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.billy.googlemap_test.Index">
+
+    <FrameLayout
+        android:id="@+id/frameLayout"
+        android:layout_width="368dp"
+        android:layout_height="212dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <fragment
+            android:id="@+id/myMap"
+            android:name="com.google.android.gms.maps.MapFragment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"></fragment>
+    </FrameLayout>
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/constraintLayout"
+        android:layout_width="368dp"
+        android:layout_height="214dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/frameLayout">
+
+        <ListView
+            android:id="@+id/listview"
+            android:layout_width="352dp"
+            android:layout_height="198dp"
+            tools:layout_editor_absoluteX="8dp"
+            tools:layout_editor_absoluteY="8dp" />
+    </android.support.constraint.ConstraintLayout>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="378dp"
+        android:layout_height="wrap_content"
+
+        android:orientation="vertical"
+        android:paddingTop="10dp"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteY="442dp"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <RadioGroup
+            android:id="@+id/radioGroup1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:paddingRight="7dp"
+            android:paddingBottom="7dp"
+            android:paddingLeft="7dp">
+
+            <RadioButton
+                android:id="@+id/radioAndroid"
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                android:layout_weight="1"
+                android:background="@drawable/rbtn_selector"
+                android:button="@drawable/home"
+                android:checked="true"
+                android:padding="5dp"></RadioButton>
+
+            <RadioButton
+                android:id="@+id/radioiPhone"
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                android:layout_weight="1"
+                android:background="@drawable/rbtn_selector"
+                android:button="@drawable/home"
+                android:gravity="center"
+                android:padding="5dp"
+                android:text="iPhone"></RadioButton>
+
+            <RadioButton
+
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                android:layout_weight="1"
+                android:background="@drawable/rbtn_selector"
+                android:button="@drawable/home"
+                android:gravity="center"
+                android:padding="5dp"
+                android:text="Windows"></RadioButton>
+
+            <RadioButton
+
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                android:layout_weight="1"
+                android:background="@drawable/rbtn_selector"
+                android:button="@drawable/home"
+                android:gravity="center"
+                android:padding="5dp"
+                android:text="Windows"></RadioButton>
+
+            <RadioButton
+
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                android:layout_weight="1"
+                android:background="@drawable/rbtn_selector"
+                android:button="@drawable/home"
+
+                android:buttonTintMode="screen"
+
+                android:gravity="center"
+                android:padding="5dp"></RadioButton>
+        </RadioGroup>
+
+    </LinearLayout>
+
+</android.support.constraint.ConstraintLayout>
