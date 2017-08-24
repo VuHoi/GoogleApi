@@ -20,13 +20,14 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.ArrayList;
 
+import adapter.adapterlocation;
 import model.Location;
 
 public class Index extends AppCompatActivity implements OnMapReadyCallback {
     GoogleMap map;
     ListView listView;
     ArrayList<Location> arrayList;
-    ArrayAdapter<Location> arrayAdapter;
+    adapterlocation arrayAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,7 +91,7 @@ public class Index extends AppCompatActivity implements OnMapReadyCallback {
     {
         arrayList=new ArrayList<>();
 
-        arrayAdapter=new ArrayAdapter<Location>(this,android.R.layout.simple_list_item_1,arrayList);
+        arrayAdapter=new adapterlocation(this,R.layout.index_location,arrayList);
         listView=findViewById(R.id.listview);
         listView.setAdapter(arrayAdapter);
     }

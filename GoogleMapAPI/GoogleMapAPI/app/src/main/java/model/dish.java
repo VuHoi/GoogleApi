@@ -5,10 +5,6 @@ package model;
  */
 
 public class dish {
-    public dish(int idmonan) {
-        this.idmonan = idmonan;
-    }
-
     public int getIdmonan() {
         return idmonan;
     }
@@ -17,5 +13,20 @@ public class dish {
         this.idmonan = idmonan;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public dish(int idmonan, String name) {
+
+        this.idmonan = idmonan;
+        this.name = name;
+    }
+
     int idmonan;
+    String name;
 }

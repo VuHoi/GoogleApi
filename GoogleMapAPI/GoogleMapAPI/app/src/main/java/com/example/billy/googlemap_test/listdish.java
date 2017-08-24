@@ -1,5 +1,6 @@
 package com.example.billy.googlemap_test;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
@@ -19,24 +20,22 @@ public class listdish extends AppCompatActivity {
     ArrayList<dish> listmonan;
     adapter_dish  adapter;
     Button btnloadmore;
+    String cate;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_listdish);
-//        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-//        toolbar.setTitle("Zensai");
-//        setSupportActionBar(toolbar);
 
+        cate = getIntent().getStringExtra("cate");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        setTitle("Zensai");
+        setTitle(cate);
         addControl();
-addEvent();
+        addEvent();
 
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_resource,menu);
-
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -50,27 +49,43 @@ addEvent();
     }
     private void addControl() {
         lsvdish=findViewById(R.id.lsvdish);
-btnloadmore=findViewById(R.id.btnloadmore);
+        btnloadmore=findViewById(R.id.btnloadmore);
     }
 
     private void addEvent() {
         listmonan=new ArrayList<dish>();
-        listmonan.add(new dish(R.drawable.sashimi));
-        listmonan.add(new dish(R.drawable.sashimi));
 
-         adapter=new adapter_dish(this,R.layout.monan_item,listmonan);
+
+        adapter=new adapter_dish(this,R.layout.monan_item,listmonan);
         lsvdish.setAdapter(adapter);
+
+        switch (cate)
+        {
+            case "Zensai": listmonan.add(new dish(R.drawable.zensai_ika_shiokara,"Ika shiokara"));
+                listmonan.add(new dish(R.drawable.zensai_ikura_hiya_yakko,"Ikura hiya yakko"));
+                break;
+
+            case "Chawanmushi": listmonan.add(new dish(R.drawable.chawa_ikura,"Ikura Chawanmushi"));
+                listmonan.add(new dish(R.drawable.chawa_eihire,"Eihire"));
+                break;
+
+        }
+        adapter.notifyDataSetChanged();
         btnloadmore.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                listmonan.add(new dish(R.drawable.sashimi));
-                listmonan.add(new dish(R.drawable.gunkan));
-                listmonan.add(new dish(R.drawable.sashimi));
-                listmonan.add(new dish(R.drawable.gunkan));
-                listmonan.add(new dish(R.drawable.sashimi));
-                listmonan.add(new dish(R.drawable.gunkan));
+                switch (cate)
+                {
+                    case "Zensai": listmonan.add(new dish(R.drawable.zensai_ginnan,"Ginnan"));
+                        listmonan.add(new dish(R.drawable.zensai_edamame,"Edamame"));
+                        break;
+
+                    case "Chawanmushi": listmonan.add(new dish(R.drawable.chawa_demo,"Eihire"));
+                        listmonan.add(new dish(R.drawable.chawa_uni,"Uni Chawanmushi"));
+                        break;
+                }
                 adapter.notifyDataSetChanged();
-                btnloadmore.setVisibility(View.INVISIBLE);
+                //btnloadmore.setVisibility(View.INVISIBLE);
             }
         });
     }
