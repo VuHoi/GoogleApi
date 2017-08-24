@@ -20,7 +20,7 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_api_key" />
 
-        <activity android:name=".Index">
+        <activity android:name=".MakeaReservation">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -31,7 +31,7 @@
         <activity android:name=".danhsachphong" />
         <activity android:name=".listroom" />
         <activity android:name=".listdish" />
-        <activity android:name=".MakeaReservation"></activity>
+        <activity android:name=".Index"></activity>
     </application>
 
 </manifest>
