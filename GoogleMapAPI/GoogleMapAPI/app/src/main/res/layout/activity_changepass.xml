@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    tools:context="com.example.billy.googlemap_test.update_member">
+    <RelativeLayout
+        android:padding="25dp"
+        android:paddingTop="30dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="20dp"
+        android:id="@+id/name"
+        android:hint="Mật khẩu cũ"
+        android:textSize="20dp"
+        />
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="20dp"
+        android:textSize="20dp"
+        android:id="@+id/edtsodienthoai"
+        android:hint="Mật khẩu mới"
+        android:layout_below="@+id/name"
+        />
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="20dp"
+        android:id="@+id/ediemail"
+        android:textSize="20dp"
+        android:hint="Nhập lại mật khẩu"
+        android:layout_below="@+id/edtsodienthoai"
+        />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ediemail"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/custom_button"
+        android:paddingRight="40dp"
+        android:paddingLeft="40dp"
+        android:layout_centerInParent="true"
+        android:text="Cập nhật"/>
+    </RelativeLayout>
+    <android.support.design.widget.BottomNavigationView
+        android:id="@+id/navi"
+        android:layout_alignParentBottom="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:menu="@menu/testnavi"></android.support.design.widget.BottomNavigationView>
+
+</RelativeLayout>

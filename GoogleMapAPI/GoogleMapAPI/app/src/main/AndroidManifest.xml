@@ -32,10 +32,16 @@
         <activity android:name=".listroom" />
         <activity android:name=".listdish" />
         <activity android:name=".MakeaReservation" />
+
         <activity android:name=".Index" />
         <activity android:name=".Info_member" />
         <activity android:name=".profile" />
         <activity android:name=".register"></activity>
+
+        <activity android:name=".update_member" />
+        <activity android:name=".login" />
+        <activity android:name=".changepass"></activity>
+
     </application>
 
 </manifest>
