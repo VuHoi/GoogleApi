@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -62,12 +63,21 @@ public class Info extends AppCompatActivity {
                 startActivity(in);
             }
         });
-
+        ImageView imageView5=findViewById(R.id.imageView5);
+        imageView5.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent in=new Intent(view.getContext(),MakeaReservation.class);
+                startActivity(in);
+            }
+        });
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Intent in=new Intent(view.getContext(),listdish.class);
+                in.putExtra("cate",arrayList.get(i).getName().toString());
                 startActivity(in);
+                //Toast.makeText(Info.this,i+"",Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -92,14 +102,9 @@ public class Info extends AppCompatActivity {
 
         gridView=findViewById(R.id.gridView);
         arrayList=new ArrayList<>();
-        arrayList.add(new CateFood("SASHIMI",R.drawable.sashimi));
-        arrayList.add(new CateFood("GUNKAN",R.drawable.gunkan));
-        arrayList.add(new CateFood("GUNKAN",R.drawable.gunkan));
-        arrayList.add(new CateFood("GUNKAN",R.drawable.gunkan));
-        arrayList.add(new CateFood("GUNKAN",R.drawable.gunkan));
-        arrayList.add(new CateFood("GUNKAN",R.drawable.gunkan));
+        arrayList.add(new CateFood("Zensai",R.drawable.zensai_demo));
+        arrayList.add(new CateFood("Chawanmushi",R.drawable.chawa_demo));
 
-        arrayList.add(new CateFood("GUNKAN",R.drawable.gunkan));
         textView1=findViewById(R.id.textView);
         imageView2=findViewById(R.id.imageView2);
         imageView4=findViewById(R.id.imageView4);

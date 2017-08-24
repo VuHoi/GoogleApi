@@ -1,52 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.billy.googlemap_test.listdish">
 
-    <android.support.v7.widget.Toolbar
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#2196F3"
-
-        android:minHeight="?attr/actionBarSize" >
-    </android.support.v7.widget.Toolbar>
-
-    <ListView
+    <RelativeLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-       android:layout_below="@+id/toolbar"
-        android:id="@+id/lsvdish">
+        android:layout_height="wrap_content">
+        <ListView
+            android:id="@+id/lsvdish"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"></ListView>
+        <Button
+            android:id="@+id/btnloadmore"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/lsvdish"
+            android:layout_centerInParent="true"
+            android:text="Load more" />
 
-    </ListView>
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/btnloadmore"
-android:layout_centerInParent="true"
-        android:layout_below="@+id/lsvdish"
-        android:text="Load more"
-         />
+    </RelativeLayout>
+
+
+
+
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-
+        android:layout_height="73dp"
         android:layout_alignParentBottom="true"
-        android:paddingTop="10dp" >
+        android:layout_marginBottom="0dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteY="422dp"
+        android:id="@+id/linearLayout2">
 
         <RadioGroup
             android:id="@+id/radioGroup1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
             android:gravity="center"
-            android:padding="7dp"
-            android:orientation="horizontal" >
+            android:orientation="horizontal"
+            android:padding="7dp">
 
             <RadioButton
                 android:id="@+id/radioAndroid"
@@ -55,12 +52,8 @@ android:layout_centerInParent="true"
                 android:layout_weight="1"
                 android:background="@drawable/rbtn_selector"
                 android:button="@drawable/home"
-
-
                 android:checked="true"
-
-                android:padding="5dp"
-                ></RadioButton>
+                android:padding="5dp"></RadioButton>
 
             <RadioButton
                 android:id="@+id/radioiPhone"
@@ -83,6 +76,7 @@ android:layout_centerInParent="true"
                 android:gravity="center"
                 android:padding="5dp"
                 android:text="Windows"></RadioButton>
+
             <RadioButton
 
                 android:layout_width="match_parent"
@@ -93,6 +87,7 @@ android:layout_centerInParent="true"
                 android:gravity="center"
                 android:padding="5dp"
                 android:text="Windows"></RadioButton>
+
             <RadioButton
 
                 android:layout_width="match_parent"
@@ -104,9 +99,8 @@ android:layout_centerInParent="true"
                 android:buttonTintMode="screen"
 
                 android:gravity="center"
-                android:padding="5dp"
-                ></RadioButton>
+                android:padding="5dp"></RadioButton>
         </RadioGroup>
 
     </LinearLayout>
-</RelativeLayout>
+</android.support.constraint.ConstraintLayout>

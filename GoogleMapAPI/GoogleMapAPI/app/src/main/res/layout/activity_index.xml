@@ -8,9 +8,9 @@
 
     <FrameLayout
         android:id="@+id/frameLayout"
-        android:layout_width="368dp"
-        android:layout_height="212dp"
-        android:layout_marginStart="8dp"
+        android:layout_width="0dp"
+        android:layout_height="184dp"
+        android:layout_marginStart="0dp"
         android:layout_marginTop="8dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -20,34 +20,35 @@
             android:name="com.google.android.gms.maps.MapFragment"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"></fragment>
+
+
     </FrameLayout>
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/constraintLayout"
-        android:layout_width="368dp"
-        android:layout_height="214dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="0dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/frameLayout">
 
         <ListView
             android:id="@+id/listview"
-            android:layout_width="352dp"
-            android:layout_height="198dp"
-            tools:layout_editor_absoluteX="8dp"
-            tools:layout_editor_absoluteY="8dp" />
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
     </android.support.constraint.ConstraintLayout>
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="378dp"
         android:layout_height="wrap_content"
-
         android:orientation="vertical"
-        android:paddingTop="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="442dp"
-        app:layout_constraintBottom_toBottomOf="parent">
+        tools:layout_editor_absoluteY="442dp">
 
         <RadioGroup
             android:id="@+id/radioGroup1"
@@ -55,9 +56,8 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:orientation="horizontal"
-            android:paddingRight="7dp"
-            android:paddingBottom="7dp"
-            android:paddingLeft="7dp">
+            android:paddingLeft="7dp"
+            android:paddingRight="7dp">
 
             <RadioButton
                 android:id="@+id/radioAndroid"

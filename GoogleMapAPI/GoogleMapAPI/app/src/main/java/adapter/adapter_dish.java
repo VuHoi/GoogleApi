@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.example.billy.googlemap_test.R;
 
@@ -37,8 +38,11 @@ public class adapter_dish  extends ArrayAdapter<dish> {
         LayoutInflater inflater = this.context.getLayoutInflater();
         View row = inflater.inflate(this.resource, null);
         ImageView img=row.findViewById(R.id.imgmonan);
+        TextView textView=row.findViewById(R.id.txtten);
+
         dish Dish= this.objects.get(position);
         img.setImageResource(Dish.getIdmonan());
+        textView.setText(Dish.getName().toString());
          return row;
     }
 }
