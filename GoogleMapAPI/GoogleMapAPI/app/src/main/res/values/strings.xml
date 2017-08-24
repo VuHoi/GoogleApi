@@ -1,4 +1,17 @@
 <resources>
     <string name="app_name">GoogleMap_test</string>
     <string name="google_api_key">AIzaSyDZ_DMsoucQpXYmprIS_7WFvFde_KBDAqI</string>
+    <string name="country_prompt">Choose a country</string>
+
+    <string-array name="country_arrays">
+        <item>AJSAI</item>
+        <item>TSUBAKI States</item>
+        <item>ASAGAO</item>
+        <item>SAKURA</item>
+        <item>JURY</item>
+        <item>JFUJI</item>
+        <item>MOMIJI</item>
+        <item>AYAME</item>
+    </string-array>
+
 </resources>
