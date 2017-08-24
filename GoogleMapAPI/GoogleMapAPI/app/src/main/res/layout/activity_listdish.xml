@@ -6,13 +6,30 @@
     android:layout_height="match_parent"
     tools:context="com.example.billy.googlemap_test.listdish">
 
+
+    <android.support.design.widget.BottomNavigationView
+        android:id="@+id/navi"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:menu="@menu/testnavi"></android.support.design.widget.BottomNavigationView>
+
     <RelativeLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="0dp"
+        android:layout_marginTop="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/navi"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_editor_absoluteX="0dp">
+
         <ListView
             android:id="@+id/lsvdish"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"></ListView>
+
         <Button
             android:id="@+id/btnloadmore"
             android:layout_width="match_parent"
@@ -23,84 +40,4 @@
 
     </RelativeLayout>
 
-
-
-
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="match_parent"
-        android:layout_height="73dp"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="0dp"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="422dp"
-        android:id="@+id/linearLayout2">
-
-        <RadioGroup
-            android:id="@+id/radioGroup1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:orientation="horizontal"
-            android:padding="7dp">
-
-            <RadioButton
-                android:id="@+id/radioAndroid"
-                android:layout_width="match_parent"
-                android:layout_height="70dp"
-                android:layout_weight="1"
-                android:background="@drawable/rbtn_selector"
-                android:button="@drawable/home"
-                android:checked="true"
-                android:padding="5dp"></RadioButton>
-
-            <RadioButton
-                android:id="@+id/radioiPhone"
-                android:layout_width="match_parent"
-                android:layout_height="70dp"
-                android:layout_weight="1"
-                android:background="@drawable/rbtn_selector"
-                android:button="@drawable/home"
-                android:gravity="center"
-                android:padding="5dp"
-                android:text="iPhone"></RadioButton>
-
-            <RadioButton
-
-                android:layout_width="match_parent"
-                android:layout_height="70dp"
-                android:layout_weight="1"
-                android:background="@drawable/rbtn_selector"
-                android:button="@drawable/home"
-                android:gravity="center"
-                android:padding="5dp"
-                android:text="Windows"></RadioButton>
-
-            <RadioButton
-
-                android:layout_width="match_parent"
-                android:layout_height="70dp"
-                android:layout_weight="1"
-                android:background="@drawable/rbtn_selector"
-                android:button="@drawable/home"
-                android:gravity="center"
-                android:padding="5dp"
-                android:text="Windows"></RadioButton>
-
-            <RadioButton
-
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="@drawable/rbtn_selector"
-                android:button="@drawable/home"
-
-                android:buttonTintMode="screen"
-
-                android:gravity="center"
-                android:padding="5dp"></RadioButton>
-        </RadioGroup>
-
-    </LinearLayout>
 </android.support.constraint.ConstraintLayout>
