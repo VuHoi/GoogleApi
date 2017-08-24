@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/duthien"/>
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Ten bai hat"
+            android:paddingLeft="20dp"
+            android:id="@+id/txtname"
+            android:textSize="25dp"
+            android:textColor="@color/colorPrimaryDark"
+            android:textStyle="bold"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_below="@+id/txtname"
+            android:paddingLeft="20dp"
+            android:id="@+id/txttacgia"
+            android:textStyle="italic"
+            android:text="ten tac gia"
+            android:textSize="15dp"
+
+            android:layout_height="wrap_content" />
+    </RelativeLayout>
+</LinearLayout>
