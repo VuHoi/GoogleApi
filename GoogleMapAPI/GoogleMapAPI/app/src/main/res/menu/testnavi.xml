@@ -15,8 +15,8 @@
         android:icon="@android:drawable/ic_btn_speak_now" />
     <item
         android:title=""
-
-        android:icon="@android:drawable/ic_btn_speak_now" />
+        android:id="@+id/btnProfile"
+        android:icon="@drawable/profile" />
     <item
         android:title=""
 

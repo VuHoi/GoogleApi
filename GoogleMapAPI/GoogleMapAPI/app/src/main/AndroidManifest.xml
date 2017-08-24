@@ -6,10 +6,10 @@
     <uses-permission android:name="android.permission.CALL_PHONE" />
 
     <application
-        android:largeHeap="true"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:largeHeap="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
@@ -20,7 +20,7 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_api_key" />
 
-        <activity android:name=".Index">
+        <activity android:name=".IndexUSer">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -31,7 +31,11 @@
         <activity android:name=".danhsachphong" />
         <activity android:name=".listroom" />
         <activity android:name=".listdish" />
-        <activity android:name=".MakeaReservation"></activity>
+        <activity android:name=".MakeaReservation" />
+        <activity android:name=".Index" />
+        <activity android:name=".Info_member" />
+        <activity android:name=".profile" />
+        <activity android:name=".register"></activity>
     </application>
 
 </manifest>
