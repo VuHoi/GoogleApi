@@ -114,11 +114,13 @@
                 android:layout_marginTop="10dp"
 
                 />
-            <EditText
-                android:layout_width="match_parent"
 
+            <EditText
+                android:id="@+id/txtNameBook"
+
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/yourname"/>
+                android:layout_below="@+id/yourname" />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -131,11 +133,12 @@
                 android:layout_marginTop="10dp"
 
                 />
+
             <EditText
+                android:id="@+id/txtPhoneBook"
                 android:layout_width="match_parent"
-android:numeric="integer"
                 android:layout_height="wrap_content"
-                />
+                android:numeric="integer" />
         </LinearLayout>
 
         <LinearLayout
@@ -173,13 +176,13 @@ android:numeric="integer"
                 android:layout_marginTop="10dp"
 
                 />
+
             <Spinner
 
-                android:entries="@array/country_arrays"
-                android:prompt="@string/country_prompt"
-                android:layout_marginTop="10dp"
+                android:id="@+id/cmbRoom"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
                 />
         </LinearLayout>
     </LinearLayout>
