@@ -123,7 +123,7 @@
             android:layout_width="fill_parent"
             android:layout_height="50dp"
             android:layout_weight="1"
-            android:layout_below="@+id/btnvi"
+
             android:drawableLeft="@mipmap/ic_launcher_round"
             android:drawablePadding="20dp"
             android:gravity="left"
@@ -135,25 +135,25 @@
             android:id="@+id/btnLichsu"
             android:layout_width="fill_parent"
             android:layout_height="50dp"
+
             android:layout_weight="1"
-            android:layout_below="@+id/btntim"
             android:drawableLeft="@mipmap/ic_launcher_round"
             android:drawablePadding="20dp"
             android:gravity="left"
-            android:text="Message"
+            android:text="Ví GGG"
             tools:layout_editor_absoluteX="0dp"
             tools:layout_editor_absoluteY="280dp" />
 
         <Button
             android:id="@+id/btnmatkhau"
             android:layout_width="fill_parent"
-            android:layout_weight="1"
             android:layout_height="50dp"
-            android:layout_below="@+id/btnLichsu"
+
+            android:layout_weight="1"
             android:drawableLeft="@mipmap/ic_launcher_round"
             android:drawablePadding="20dp"
             android:gravity="left"
-            android:text="Message"
+            android:text="Tìm nhà hàng"
             tools:layout_editor_absoluteX="0dp"
             tools:layout_editor_absoluteY="230dp" />
 
@@ -161,14 +161,13 @@
             android:id="@+id/btnvi"
             android:layout_width="fill_parent"
             android:layout_height="40dp"
-            android:layout_below="@+id/btnmesg"
-            android:drawableLeft="@mipmap/ic_launcher_round"
+
             android:layout_weight="1"
+            android:drawableLeft="@mipmap/ic_launcher_round"
             android:drawablePadding="20dp"
             android:gravity="left"
-            android:text="Message"
-            tools:layout_editor_absoluteX="0dp"
-            tools:layout_editor_absoluteY="425dp" />
+            android:text="Lịch sử tìm điểm"
+             />
 
         <Button
             android:id="@+id/btnmesg"
@@ -182,8 +181,7 @@
             android:drawablePadding="20dp"
             android:gravity="left"
             android:text="Đổi mật khẩu"
-            tools:layout_editor_absoluteX="0dp"
-            tools:layout_editor_absoluteY="225dp" />
+            />
     </LinearLayout>
 
 

@@ -1,18 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="#ffffff"
+    android:id="@+id/a"
     tools:context="com.example.vukhachoi.musicapp.danhsachphong">
 
     <LinearLayout
         android:paddingLeft="20dp"
         android:paddingTop="10dp"
         android:orientation="vertical"
-
+android:id="@+id/b"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
         <TextView
@@ -42,6 +43,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
+        android:id="@+id/c"
+        android:layout_below="@+id/b"
         >
         <ImageView
             android:layout_width="match_parent"
@@ -70,7 +73,8 @@
     <LinearLayout
         android:paddingLeft="20dp"
         android:orientation="vertical"
-
+android:layout_below="@+id/c"
+        android:id="@+id/d"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
         <TextView
@@ -96,11 +100,13 @@
             android:textSize="17dp"
             android:text="16:30"></TextView>
     </LinearLayout>
-<android.support.design.widget.BottomNavigationView
-    android:layout_width="wrap_content"
-    android:id="@+id/navi"
-    style="@style/AppTheme"
-    android:layout_height="wrap_content"
-    app:menu="@menu/testnavi"></android.support.design.widget.BottomNavigationView>
+    <android.support.design.widget.BottomNavigationView
+        android:layout_width="wrap_content"
+        android:id="@+id/navi"
+android:layout_alignParentBottom="true"
+        style="@style/AppTheme"
 
-</LinearLayout>
+        android:layout_height="wrap_content"
+        app:menu="@menu/testnavi"></android.support.design.widget.BottomNavigationView>
+
+</RelativeLayout>
