@@ -1,6 +1,8 @@
 package com.example.billy.googlemap_test;
 
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -10,6 +12,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -22,6 +25,7 @@ import java.util.ArrayList;
 
 import adapter.adapterlocation;
 import model.Location;
+import sqlite.Databasehelper;
 
 public class Index extends AppCompatActivity implements OnMapReadyCallback {
     GoogleMap map;
@@ -114,6 +118,12 @@ public class Index extends AppCompatActivity implements OnMapReadyCallback {
                 startActivity(intent);
             }
         });
-
+        Databasehelper myDatabase = new Databasehelper(this);
+        SQLiteDatabase database;
+        myDatabase.Khoitai();
+        database=myDatabase.getMyDatabase();
+        Cursor cursor=database.rawQuery("select * from orderroom",null);
+        cursor.moveToFirst();
+        Toast.makeText(this,cursor.getString(1),Toast.LENGTH_LONG).show();
     }
 }
