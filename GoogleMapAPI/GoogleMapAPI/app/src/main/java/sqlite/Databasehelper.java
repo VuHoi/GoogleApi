@@ -13,32 +13,31 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-public class Databasehelper extends SQLiteOpenHelper
-{
+/**
+ * Created by Billy on 8/25/2017.
+ */
+public class Databasehelper extends SQLiteOpenHelper {
     private SQLiteDatabase myDataBase;
     private final Context myContext;
-    private static final String DATABASE_NAME = "Weeding.sqlite";
-    public final static String DATABASE_PATH ="/data/data/com.example.vukhachoi.weddingmanagement/";
+    private static final String DATABASE_NAME = "db_mylife.sqlite";
+    public  String DATABASE_PATH = "/data/data/com.example.billy.googlemap_test/";
     public static final int DATABASE_VERSION = 6;
     //public static final int DATABASE_VERSION_old = 1;
 
     //Constructor
-    public Databasehelper(Context context)
-    {
+    public Databasehelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
         this.myContext = context;
 
     }
 
     //Create a empty database on the system
-    public void createDatabase() throws IOException
-    {
-       //db_delete();
+    public void createDatabase() throws IOException {
+        //db_delete();
 
         boolean dbExist = checkDataBase();
 
-        if(dbExist)
-        {
+        if (dbExist) {
             Log.v("DB Exists", "db exists");
             // By calling this method here onUpgrade will be called on a
             // writeable database, but only if the version number has been
@@ -47,53 +46,45 @@ public class Databasehelper extends SQLiteOpenHelper
         }
 
         boolean dbExist1 = checkDataBase();
-        if(!dbExist1)
-        {
+        if (!dbExist1) {
             this.getReadableDatabase();
-            try
-            {
+            try {
                 this.close();
                 copyDataBase();
-            }
-            catch (IOException e)
-            {
+            } catch (IOException e) {
                 throw new Error("Error copying database");
             }
         }
     }
 
-    public SQLiteDatabase getMyDatabase()
-    {
+    public SQLiteDatabase getMyDatabase() {
         return myDataBase;
     }
 
     //Check database already exist or not
-    private boolean checkDataBase()
-    {
-        boolean checkDB = false;
-        try
-        {
+    private boolean checkDataBase() {
+        SQLiteDatabase checkDB = null;
+        try {
             String myPath = DATABASE_PATH + DATABASE_NAME;
-            File dbfile = new File(myPath);
-            checkDB = dbfile.exists();
+            checkDB = SQLiteDatabase.openDatabase(myPath, null, SQLiteDatabase.OPEN_READWRITE);
+        } catch (SQLiteException e) {
+            // database does't exist yet.
         }
-        catch(SQLiteException e)
-        {
+        if (checkDB != null) {
+            checkDB.close();
         }
-        return checkDB;
+        return checkDB != null ? true : false;
     }
 
     //Copies your database from your local assets-folder to the just created empty database in the system folder
-    private void copyDataBase() throws IOException
-    {
+    private void copyDataBase() throws IOException {
         String outFileName = DATABASE_PATH + DATABASE_NAME;
         OutputStream myOutput = new FileOutputStream(outFileName);
         InputStream myInput = myContext.getAssets().open(DATABASE_NAME);
 
         byte[] buffer = new byte[1024];
         int length;
-        while ((length = myInput.read(buffer)) > 0)
-        {
+        while ((length = myInput.read(buffer)) > 0) {
             myOutput.write(buffer, 0, length);
         }
         myInput.close();
@@ -102,44 +93,37 @@ public class Databasehelper extends SQLiteOpenHelper
     }
 
     //delete database
-    public void db_delete()
-    {
+    public void db_delete() {
         File file = new File(DATABASE_PATH + DATABASE_NAME);
-        if(file.exists())
-        {
+        if (file.exists()) {
             file.delete();
             System.out.println("delete database file.");
         }
     }
 
     //Open database
-    public void openDatabase() throws SQLException
-    {
+    public void openDatabase() throws SQLException {
         String myPath = DATABASE_PATH + DATABASE_NAME;
         myDataBase = SQLiteDatabase.openDatabase(myPath, null, SQLiteDatabase.OPEN_READWRITE);
     }
 
-    public synchronized void closeDataBase()throws SQLException
-    {
-        if(myDataBase != null)
+    public synchronized void closeDataBase() throws SQLException {
+        if (myDataBase != null)
             myDataBase.close();
         super.close();
     }
 
-    public void onCreate(SQLiteDatabase db)
-    {
+    public void onCreate(SQLiteDatabase db) {
     }
 
-    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion)
-    {
-        if (newVersion > oldVersion)
-        {
+    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        if (newVersion > oldVersion) {
             Log.v("Database Upgrade", "Database version higher than old.");
             db_delete();
         }
     }
-    public void Khoitai()
-    {
+
+    public void Khoitai() {
         try {
             this.createDatabase();
 
@@ -151,11 +135,11 @@ public class Databasehelper extends SQLiteOpenHelper
         try {
             this.openDatabase();
 
-        }catch(SQLException sqle){
+        } catch (SQLException sqle) {
 
             throw sqle;
         }
     }
 
-    //add your public methods for insert, get, delete and update data in database.
+//add your public methods for insert, get, delete and update data in database.
 }
