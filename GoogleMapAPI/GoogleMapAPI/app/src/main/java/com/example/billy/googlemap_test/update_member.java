@@ -12,7 +12,7 @@ public class update_member extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_update_member);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        setTitle("Cửa hàng");
+     setTitle("Nguyễn Văn Anh");
     }
 
     @Override
