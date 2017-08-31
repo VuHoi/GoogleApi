@@ -19,7 +19,7 @@ import sqlite.Databasehelper;
  */
 
 public class  Fragment_detail_user extends Fragment {
-
+    Databasehelper myDatabase = new Databasehelper(getActivity());
     SQLiteDatabase database;
     ArrayAdapter arrayAdapter;
     TextView txtYourname,txttime,txtPhoneNumber,txtroom;
@@ -27,8 +27,16 @@ public class  Fragment_detail_user extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         View view =inflater.inflate(R.layout.detail_user,container,false);
+try {
+    myDatabase.Khoitai();
+    database = myDatabase.getMyDatabase();
+}
+catch (Exception E)
+{
+
+}
         addControl(view);
-AddEvent();
+         AddEvent();
 
         return  view;
 
@@ -37,18 +45,22 @@ AddEvent();
 
     public void  convert ( String Name)
     {
-        Cursor cursor=database.rawQuery("select * from orderroom where FullName =?" ,new String[]{Name});
-        cursor.moveToFirst();
+        try {
+            Cursor cursor = database.rawQuery("select * from orderroom where FullName =?", new String[]{Name});
+            cursor.moveToFirst();
 
-        txtYourname= getActivity().findViewById(R.id.txtNameBook111);
-        txttime= getActivity().findViewById(R.id.txttime1);
-        txtPhoneNumber= getActivity().findViewById(R.id.txtPhoneNumber1);
-        txtroom= getActivity().findViewById(R.id.txtroom1);
-        txtYourname.setText(cursor.getString(1));
-        txttime.setText(cursor.getString(3));
-        txtPhoneNumber.setText(cursor.getString(2));
-        txtroom.setText(cursor.getString(4));
+            txtYourname = getActivity().findViewById(R.id.txtNameBook111);
+            txttime = getActivity().findViewById(R.id.txttime1);
+            txtPhoneNumber = getActivity().findViewById(R.id.txtPhoneNumber1);
+            txtroom = getActivity().findViewById(R.id.txtroom1);
+            txtYourname.setText(cursor.getString(1));
+            txttime.setText(cursor.getString(3));
+            txtPhoneNumber.setText(cursor.getString(2));
+            txtroom.setText(cursor.getString(4));
+        }catch (Exception e)
+        {
 
+        }
 
 
     }

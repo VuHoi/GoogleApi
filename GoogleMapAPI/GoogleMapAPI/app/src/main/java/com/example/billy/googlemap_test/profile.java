@@ -22,7 +22,10 @@ public class profile extends AppCompatActivity {
         Addcontrol();
         Intent intent=getIntent();
         String imagetemp=intent.getStringExtra("image");
-       Picasso.with(this).load(Uri.parse(imagetemp)).into(imageView);
+        try
+        {
+            Picasso.with(this).load(Uri.parse(imagetemp)).into(imageView);
+        }catch (Exception e){};
         textView.setText(intent.getStringExtra("Name"));
     }
 
