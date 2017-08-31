@@ -13,12 +13,16 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/facebook_app_id"/>
-        <activity android:name="com.facebook.FacebookActivity"
-            android:configChanges=
-                "keyboard|keyboardHidden|screenLayout|screenSize|orientation"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar"
-            android:label="@string/app_name" />
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/facebook_app_id" />
+
+        <activity
+            android:name="com.facebook.FacebookActivity"
+            android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+
         <meta-data
             android:name="android.support.PARENT_ACTIVITY"
             android:value="com.example.billy.googlemap_test.Index" />
@@ -37,7 +41,7 @@
         <activity android:name=".danhsachphong" />
         <activity android:name=".listroom" />
         <activity android:name=".listdish" />
-        <activity android:name=".detail_user" />
+        <activity android:name=".UserLogin" />
         <activity android:name=".Index" />
         <activity android:name=".Info_member" />
         <activity android:name=".profile" />
@@ -45,7 +49,8 @@
         <activity android:name=".update_member" />
         <activity android:name=".login" />
         <activity android:name=".changepass" />
-        <activity android:name=".MakeaReservation"></activity>
+        <activity android:name=".MakeaReservation" />
+        <activity android:name=".detail_user"></activity>
     </application>
 
 </manifest>
