@@ -1,15 +1,18 @@
 package com.example.billy.googlemap_test;
 
 import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.content.ContentValues;
-import android.database.Cursor;
+import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
-import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -18,7 +21,6 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -40,7 +42,8 @@ public class MakeaReservation extends AppCompatActivity implements DatePickerDia
         setContentView(R.layout.activity_makea_reservation);
         myDatabase.Khoitai();
         database=myDatabase.getMyDatabase();
-
+        setTitle("Make Revervation");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 //
 //        Cursor cursor=database.rawQuery("select * from orderroom",null);
 //        cursor.moveToFirst();
@@ -53,6 +56,29 @@ public class MakeaReservation extends AppCompatActivity implements DatePickerDia
 
     }
 
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_admin,menu);
+
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if(item.getItemId()==android.R.id.home)
+        {
+            finish();
+        }
+        else if(item.getItemId()==R.id.admin )
+        {
+
+showDialog(1);
+
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
     String text="";
 
     private void addEvent() {
@@ -60,7 +86,7 @@ public class MakeaReservation extends AppCompatActivity implements DatePickerDia
         book.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
+                final AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
 
                 ContentValues values=new ContentValues();
                 values.put("FullName",txtNameBook.getText().toString());
@@ -74,6 +100,7 @@ public class MakeaReservation extends AppCompatActivity implements DatePickerDia
 
 
                 AlertDialog dialog = builder.create();
+
                 dialog.show();
 
             }
@@ -148,5 +175,55 @@ public class MakeaReservation extends AppCompatActivity implements DatePickerDia
         fhour=i;
         fminute=i1;
         edttime.setText(fyear+"-"+fmonth+"-"+fday+" : "+ fhour+" : "+fminute);
+    }
+
+
+    @Override
+    protected Dialog onCreateDialog(int id) {
+        AlertDialog dialog =null;
+        LayoutInflater inflater = LayoutInflater.from(this);
+        View dialogview;
+        AlertDialog.Builder dialogbuilder;
+        if(id==1)
+        {
+            dialogview = inflater.inflate(R.layout.login, null);
+            dialogbuilder = new AlertDialog.Builder(this);
+            dialogbuilder.setView(dialogview);
+
+            dialog = dialogbuilder.create();
+        }
+        return dialog;
+    }
+
+
+    @Override
+    protected void onPrepareDialog(int id, Dialog dialog) {
+        final AlertDialog alertDialog;
+        if(id==1)
+        {
+            alertDialog = (AlertDialog) dialog;
+            Button btndangnhap=  alertDialog.findViewById(R.id.btnDangNhap);
+            Button btnHuy=alertDialog.findViewById(R.id.btnHuy);
+            TextView txtforgot= alertDialog.findViewById(R.id.txtforgot);
+            final EditText edtpass=  alertDialog.findViewById(R.id.edtpass);
+
+                btndangnhap.setOnClickListener(new View.OnClickListener() {
+
+                    @Override
+                    public void onClick(View view) {
+//                        if(edtpass.getText().equals("123456")) {
+                            Intent intent = new Intent(MakeaReservation.this, detail_user.class);
+                            startActivity(intent);
+//                        }
+                    }
+                });
+
+            btnHuy.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    alertDialog.dismiss();
+                }
+            });
+        }
     }
 }
