@@ -26,7 +26,7 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyDZ_DMsoucQpXYmprIS_7WFvFde_KBDAqI" />
 
-        <activity android:name=".IndexUSer">
+        <activity android:name=".detail_user">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -37,17 +37,15 @@
         <activity android:name=".danhsachphong" />
         <activity android:name=".listroom" />
         <activity android:name=".listdish" />
-        <activity android:name=".MakeaReservation" />
-
+        <activity android:name=".IndexUSer" />
         <activity android:name=".Index" />
         <activity android:name=".Info_member" />
         <activity android:name=".profile" />
-        <activity android:name=".register"></activity>
-
+        <activity android:name=".register" />
         <activity android:name=".update_member" />
         <activity android:name=".login" />
-        <activity android:name=".changepass"></activity>
-
+        <activity android:name=".changepass" />
+        <activity android:name=".MakeaReservation"></activity>
     </application>
 
 </manifest>

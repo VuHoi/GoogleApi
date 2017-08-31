@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.vukhachoi.fragment.MainActivity">
+   <TextView
+       android:layout_centerInParent="true"
+       android:textSize="20dp"
+       android:id="@+id/txt"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content" />
+   <Button
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:text="click"
+       android:onClick="onclick"
+       android:id="@+id/btn"/>
+   <Button
+       android:onClick="onclick"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:text="click"
+       android:layout_toRightOf="@+id/btn"
+       android:id="@+id/btn2"/>
+<FrameLayout
+    android:layout_width="match_parent"
+    android:layout_height="500dp"
+    android:id="@+id/framcontent"
+    android:layout_below="@+id/btn">
+
+   <fragment
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:name="fragmenta.fragment_b"
+       android:id="@+id/fragmentB"
+       ></fragment>
+
+   <fragment
+       android:layout_gravity="bottom"
+       android:id="@+id/fragmentA"
+       android:name="fragmenta.fragment_a"
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"></fragment>
+
+</FrameLayout>
+</RelativeLayout>
