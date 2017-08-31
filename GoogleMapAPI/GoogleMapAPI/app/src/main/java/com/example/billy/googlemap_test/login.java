@@ -3,6 +3,7 @@ package com.example.billy.googlemap_test;
 import android.app.ProgressDialog;
 import android.content.ContentValues;
 import android.content.Intent;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -44,6 +45,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 
 import sqlite.Databasehelper;
 
@@ -270,17 +272,34 @@ public class login extends AppCompatActivity implements
 
 
         Log.d("img",img.toString());
+        ArrayList<String> arrName = new ArrayList<>();
+        try {
+            Cursor cursor = database.rawQuery("select name from user", null);
+            cursor.moveToFirst();
 
+            while (!cursor.isAfterLast()) {
+                arrName.add(cursor.getString(0));
+                cursor.moveToNext();
+            }
+            cursor.close();
+        }catch (Exception e){};
+
+        int flag=1;
+        for(String s:arrName)
+        {
+            if(s.equals(Name)) {flag=0; break;}
+        }
+
+        if(flag==1) {
         ByteArrayOutputStream byteArrayOutputStream=new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.PNG,100,byteArrayOutputStream);
         byte[] array=byteArrayOutputStream.toByteArray();
-
-
-        ContentValues contentValues = new ContentValues();
-        contentValues.put("Name", Name);
-        contentValues.put("Password", "");
-        contentValues.put("Image", array);
-        database.insert("USER", null, contentValues);
+            ContentValues contentValues = new ContentValues();
+            contentValues.put("Name", Name);
+            contentValues.put("Password", "");
+            contentValues.put("Image", array);
+            database.insert("USER", null, contentValues);
+        }
 
     }
         // [END handleSignInResult]
@@ -333,7 +352,6 @@ public class login extends AppCompatActivity implements
 
           //signOut();
             new LoadImage().execute(img.toString());//InsertInfo(img);
-            Toast.makeText(this,"ADD success",Toast.LENGTH_LONG).show();
             Toast.makeText(this,"You had login with " + Name,Toast.LENGTH_LONG).show();
             Intent intent =new Intent(this, profile.class);
             intent.putExtra("Name",Name);
