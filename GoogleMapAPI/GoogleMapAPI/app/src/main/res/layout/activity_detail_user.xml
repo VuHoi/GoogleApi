@@ -11,11 +11,6 @@
         android:id="@+id/containerFragment"
         android:layout_width="match_parent"
         android:layout_height="400dp"
-
-
-
-
-
         >
 
         <fragment
@@ -27,14 +22,12 @@
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
            >
-
-
         </fragment>
     </FrameLayout>
 <fragment
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-   android:layout_below="@+id/containerFragment"
+   android:layout_alignParentBottom="true"
 
 
     android:id="@+id/fragmentdetail"
