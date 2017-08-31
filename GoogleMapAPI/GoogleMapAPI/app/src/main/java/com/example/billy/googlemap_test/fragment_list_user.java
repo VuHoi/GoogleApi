@@ -12,7 +12,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -40,18 +39,22 @@ View view =inflater.inflate(R.layout.list_user,container,false);
         listuser=new ArrayList<>();
         arrayAdapter=new ArrayAdapter<>(getActivity(),android.R.layout.simple_dropdown_item_1line,listuser);
         lsvuser.setAdapter(arrayAdapter);
+     try {
 
-        myDatabase.Khoitai();
-        database=myDatabase.getMyDatabase();
-        Cursor cursor=database.rawQuery("select * from orderroom",null);
-        cursor.moveToFirst();
-        while (!cursor.isAfterLast())
+            myDatabase.Khoitai();
+            database = myDatabase.getMyDatabase();
+            Cursor cursor = database.rawQuery("select * from orderroom", null);
+            cursor.moveToFirst();
+            while (!cursor.isAfterLast()) {
+                listuser.add(cursor.getString(1));
+                arrayAdapter.notifyDataSetChanged();
+                cursor.moveToNext();
+            }
+            cursor.close();
+        }catch (Exception e)
         {
-            listuser.add(cursor.getString(1));
-            arrayAdapter.notifyDataSetChanged();
-            cursor.moveToNext();
+
         }
-        cursor.close();
 addEvent();
         return view ;
 
@@ -70,7 +73,6 @@ addEvent();
 //                txtroom= getActivity().findViewById(R.id.txtroom1);
 //                Cursor cursor=database.rawQuery("select * from orderroom where FullName= ?",new String[]{listuser.get(i).toString()});
 //                cursor.moveToFirst();
-                Toast.makeText(getActivity(), "vu khac hoi", Toast.LENGTH_SHORT).show();
 
 //                    txtYourname.setText(cursor.getString(1)+"");
 //                    txttime.setText(cursor.getString(3)+"");

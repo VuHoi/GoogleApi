@@ -32,12 +32,16 @@ public class IndexUSer extends AppCompatActivity {
 
 
         ImageView imageView=findViewById(R.id.imageView);
-        byte[] hinhanh = cursor.getBlob(2);
-        Bitmap bitmap1 = BitmapFactory.decodeByteArray(hinhanh, 0, hinhanh.length);
-        imageView.setImageBitmap(bitmap1);
-        Toast.makeText(this,cursor.getString(0),Toast.LENGTH_LONG).show();
+        try {
+            byte[] hinhanh = cursor.getBlob(2);
+            Bitmap bitmap1 = BitmapFactory.decodeByteArray(hinhanh, 0, hinhanh.length);
+            imageView.setImageBitmap(bitmap1);
+            Toast.makeText(this, cursor.getString(0), Toast.LENGTH_LONG).show();
 
+        }catch (Exception e)
+        {
 
+        }
         //cursor.close();
 
 
