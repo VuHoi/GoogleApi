@@ -1,22 +1,34 @@
 package com.example.billy.googlemap_test;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import com.squareup.picasso.Picasso;
 
 public class profile extends AppCompatActivity {
  Button btntim,btnLichsu,btnmatkhau,btnvi,btnmesg;
+ ImageView imageView;
+ TextView textView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
-Addcontrol();
+        Addcontrol();
+        Intent intent=getIntent();
+        String imagetemp=intent.getStringExtra("image");
+        Picasso.with(this).load(Uri.parse(imagetemp)).into(imageView);
+        textView.setText(intent.getStringExtra("Name"));
     }
 
     private void Addcontrol() {
-
+        imageView=findViewById(R.id.imageView15);
+        textView=findViewById(R.id.textView4);
         btnLichsu=findViewById(R.id.btnLichsu);
         btntim=findViewById(R.id.btntim);
         btnmatkhau=findViewById(R.id.btnmatkhau);

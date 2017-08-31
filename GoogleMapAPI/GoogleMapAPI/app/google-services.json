@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "485108435620",
+    "project_id": "mylife-e39a2"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:485108435620:android:22de14108e6990b7",
+        "android_client_info": {
+          "package_name": "com.example.billy.googlemap_test"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "485108435620-1p3top93ksjdb6h7hmfh22422024268b.apps.googleusercontent.com",
+          "client_type": 3
+        },
+        {
+          "client_id": "485108435620-7iqcgqfmjbeghkhh2d14587lkkv86euj.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.billy.googlemap_test",
+            "certificate_hash": "f8693602b81678227cfe5d18ce8d17e1db1bc038"
+          }
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyClCn2u-sJ_8fhcyWvOaR2UnfB1BvHJO7w"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

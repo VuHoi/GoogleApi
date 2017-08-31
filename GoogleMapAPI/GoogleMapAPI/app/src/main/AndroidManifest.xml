@@ -13,12 +13,18 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/facebook_app_id"/>
+        <activity android:name="com.facebook.FacebookActivity"
+            android:configChanges=
+                "keyboard|keyboardHidden|screenLayout|screenSize|orientation"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:label="@string/app_name" />
         <meta-data
             android:name="android.support.PARENT_ACTIVITY"
             android:value="com.example.billy.googlemap_test.Index" />
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="@string/google_api_key" />
+            android:value="AIzaSyDZ_DMsoucQpXYmprIS_7WFvFde_KBDAqI" />
 
         <activity android:name=".IndexUSer">
             <intent-filter>
