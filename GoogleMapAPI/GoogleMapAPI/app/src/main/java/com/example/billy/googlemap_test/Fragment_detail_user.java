@@ -18,7 +18,7 @@ import sqlite.Databasehelper;
  * Created by Vu Khac Hoi on 8/31/2017.
  */
 
-public class Fragment_detail_user extends Fragment {
+public class  Fragment_detail_user extends Fragment {
 
     SQLiteDatabase database;
     ArrayAdapter arrayAdapter;
