@@ -1,18 +1,19 @@
 package com.example.billy.googlemap_test;
 
 import android.app.ProgressDialog;
+import android.content.ContentValues;
 import android.content.Intent;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.drawable.Drawable;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -35,13 +36,16 @@ import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
-import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Target;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.ArrayList;
 
 import sqlite.Databasehelper;
 
@@ -231,7 +235,35 @@ public class login extends AppCompatActivity implements
             updateUI(false);
         }
     }
-    void InsertInfo(Uri uri) throws IOException {
+    Bitmap bitmapIMG;
+  class LoadImage extends AsyncTask<String,Void,Bitmap>
+  {
+      Bitmap bitmap=null;
+      @Override
+      protected Bitmap doInBackground(String... strings) {
+          try {
+              URL url=new URL(strings[0]);
+              InputStream inputStream=url.openConnection().getInputStream();
+              bitmap= BitmapFactory.decodeStream(inputStream);
+          } catch (MalformedURLException e) {
+              e.printStackTrace();
+          } catch (IOException e) {
+              e.printStackTrace();
+          }
+          return bitmap;
+      }
+
+      @Override
+      protected void onPostExecute(Bitmap bitmap) {
+          super.onPostExecute(bitmap);
+          try {
+              InsertInfo(bitmap);
+          } catch (IOException e) {
+              e.printStackTrace();
+          }
+      }
+  }
+    void InsertInfo(Bitmap bitmap) throws IOException {
 
         Databasehelper myDatabase = new Databasehelper(this);
         SQLiteDatabase database;
@@ -239,49 +271,35 @@ public class login extends AppCompatActivity implements
         database = myDatabase.getMyDatabase();
 
 
+        Log.d("img",img.toString());
+        ArrayList<String> arrName = new ArrayList<>();
+        try {
+            Cursor cursor = database.rawQuery("select name from user", null);
+            cursor.moveToFirst();
 
-
-
-        ImageView imageView=findViewById(R.id.imageView8);
-        final Bitmap[] bitmap = new Bitmap[1];
-        ImageView imageView1=findViewById(R.id.imageView9);
-        Target target = new Target() {
-            @Override
-            public void onBitmapLoaded(Bitmap bitmap1, Picasso.LoadedFrom from) {
-                bitmap[0]=bitmap1;
+            while (!cursor.isAfterLast()) {
+                arrName.add(cursor.getString(0));
+                cursor.moveToNext();
             }
+            cursor.close();
+        }catch (Exception e){};
 
-            @Override
-            public void onBitmapFailed(Drawable errorDrawable) {
+        int flag=1;
+        for(String s:arrName)
+        {
+            if(s.equals(Name)) {flag=0; break;}
+        }
 
-            }
-
-            @Override
-            public void onPrepareLoad(Drawable placeHolderDrawable) {
-
-            }
-        };
-
-
-
-        Picasso.with(this).load(uri).into(target);
-
-
-
-
-        imageView1.setImageBitmap(bitmap[0]);
-
-
-//        ByteArrayOutputStream byteArrayOutputStream=new ByteArrayOutputStream();
-//        bitmap.compress(Bitmap.CompressFormat.PNG,100,byteArrayOutputStream);
-//        byte[] array=byteArrayOutputStream.toByteArray();
-//
-//
-//        ContentValues contentValues = new ContentValues();
-//        contentValues.put("Name", Name);
-//        contentValues.put("Password", "");
-//        contentValues.put("Image", array);
-//        database.insert("USER", null, contentValues);
+        if(flag==1) {
+        ByteArrayOutputStream byteArrayOutputStream=new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG,100,byteArrayOutputStream);
+        byte[] array=byteArrayOutputStream.toByteArray();
+            ContentValues contentValues = new ContentValues();
+            contentValues.put("Name", Name);
+            contentValues.put("Password", "");
+            contentValues.put("Image", array);
+            database.insert("USER", null, contentValues);
+        }
 
     }
         // [END handleSignInResult]
@@ -327,24 +345,13 @@ public class login extends AppCompatActivity implements
             mProgressDialog.hide();
         }
     }
-    public static Bitmap loadBitmapFromView(View v) {
-        Bitmap b = Bitmap.createBitmap( 100,100, Bitmap.Config.ARGB_8888);
-        Canvas c = new Canvas(b);
-        v.layout(0, 0, v.getLayoutParams().width, v.getLayoutParams().height);
-        v.draw(c);
-        return b;
-    }
+
 
     private void updateUI(boolean signedIn) {
         if (signedIn) {
 
           //signOut();
-            try {
-                InsertInfo(img);
-                Toast.makeText(this,"ADD success",Toast.LENGTH_LONG).show();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            new LoadImage().execute(img.toString());//InsertInfo(img);
             Toast.makeText(this,"You had login with " + Name,Toast.LENGTH_LONG).show();
             Intent intent =new Intent(this, profile.class);
             intent.putExtra("Name",Name);
