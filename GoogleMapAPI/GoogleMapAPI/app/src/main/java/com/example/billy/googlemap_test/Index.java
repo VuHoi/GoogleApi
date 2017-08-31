@@ -1,6 +1,8 @@
 package com.example.billy.googlemap_test;
 
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -10,6 +12,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -22,6 +25,7 @@ import java.util.ArrayList;
 
 import adapter.adapterlocation;
 import model.Location;
+import sqlite.Databasehelper;
 
 public class Index extends AppCompatActivity implements OnMapReadyCallback {
     GoogleMap map;
@@ -29,13 +33,17 @@ public class Index extends AppCompatActivity implements OnMapReadyCallback {
     ArrayList<Location> arrayList;
     adapterlocation arrayAdapter;
 
+    Databasehelper myDatabase = new Databasehelper(this);
+    SQLiteDatabase database;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_index);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setTitle("Cửa hàng");
-
+        myDatabase.Khoitai();
+        database=myDatabase.getMyDatabase();
         //ready map
         MapFragment mapFragment = (MapFragment) getFragmentManager()
                 .findFragmentById(R.id.myMap);
@@ -97,15 +105,17 @@ public class Index extends AppCompatActivity implements OnMapReadyCallback {
     }
     void AddEvent()
     {
-        arrayList.add(new Location("YEN SUSHI & SAKE PUB 1","15A Lê Quý Đôn, P.6, Q.3, HCM","028 39 330 167"));
-        arrayList.add(new Location("YEN SUSHI & SAKE PUB 2","92 Nam Kì Khởi Nghĩa, P. Bến Nghé, Q.1, HCM","028 38 218 586"));
-        arrayList.add(new Location("YEN SUSHI & SAKE PUB 3","185 Nguyễn Đức Cảnh, Q.7, HCM","028 54 125 316"));
-        arrayList.add(new Location("YEN SUSHI PREMIUM","123 Bà Huyện Thanh Quan, Q.3, HCM","028 39 318 828"));
+      //  myDatabase.db_delete();
+        Cursor cursor=database.rawQuery("select * from storeon",null);
+        cursor.moveToFirst();
 
-        arrayList.add(new Location("YEN SUSHI & SAKE PUB 1","15A Lê Quý Đôn, P.6, Q.3, HCM","028 39 330 167"));
-        arrayList.add(new Location("YEN SUSHI & SAKE PUB 1","15A Lê Quý Đôn, P.6, Q.3, HCM","028 39 330 167"));
-        arrayList.add(new Location("YEN SUSHI & SAKE PUB 1","15A Lê Quý Đôn, P.6, Q.3, HCM","028 39 330 167"));
-
+        while (!cursor.isAfterLast())
+        {
+            arrayList.add(new Location(cursor.getString(1),cursor.getString(2),cursor.getString(3)));
+            arrayAdapter.notifyDataSetChanged();
+            cursor.moveToNext();
+        }
+        cursor.close();
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -114,6 +124,7 @@ public class Index extends AppCompatActivity implements OnMapReadyCallback {
                 startActivity(intent);
             }
         });
+
 
     }
 }
