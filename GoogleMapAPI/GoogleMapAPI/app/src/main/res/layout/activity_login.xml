@@ -73,15 +73,7 @@
         android:layout_marginTop="28dp"
         app:layout_constraintTop_toBottomOf="@+id/matkhau" />
 
-    <ImageView
-        android:id="@+id/imageView8"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:visibility="visible"
-        app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@drawable/bell"
-        tools:layout_editor_absoluteY="333dp" />
+
 
 
 

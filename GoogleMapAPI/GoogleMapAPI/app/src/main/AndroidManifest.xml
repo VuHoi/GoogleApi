@@ -2,8 +2,12 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.billy.googlemap_test">
 
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="com.google.android.provider.gsf.permission.READ_GSERVICES"></uses-permission>
     <uses-permission android:name="android.permission.CALL_PHONE" />
+
 
     <application
         android:allowBackup="true"
@@ -25,12 +29,12 @@
 
         <meta-data
             android:name="android.support.PARENT_ACTIVITY"
-            android:value="com.example.billy.googlemap_test.Index" />
+            android:value="com.example.billy.googlemap_test.IndexUSer" />
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyDZ_DMsoucQpXYmprIS_7WFvFde_KBDAqI" />
 
-        <activity android:name=".IndexUSer">
+        <activity android:name=".Index">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -42,7 +46,7 @@
         <activity android:name=".listroom" />
         <activity android:name=".listdish" />
         <activity android:name=".UserLogin" />
-        <activity android:name=".Index" />
+        <activity android:name=".IndexUSer" />
         <activity android:name=".Info_member" />
         <activity android:name=".profile" />
         <activity android:name=".register" />
