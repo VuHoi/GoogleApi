@@ -25,6 +25,7 @@ import com.facebook.FacebookSdk;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
 import com.facebook.Profile;
+import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.auth.api.Auth;
@@ -34,7 +35,6 @@ import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.common.api.OptionalPendingResult;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 
@@ -122,6 +122,8 @@ public class login extends AppCompatActivity implements
         SignInButton signInButton = (SignInButton) findViewById(R.id.btnSignIn);
         signInButton.setSize(SignInButton.SIZE_STANDARD);
         signInButton.setScopes(gso.getScopeArray());
+        LoginManager.getInstance().logOut();
+
 
         // [END customize_button]
     }
@@ -135,6 +137,7 @@ public class login extends AppCompatActivity implements
                     Name=object.getString("name").toString();
                     img= Profile.getCurrentProfile().getProfilePictureUri(100,100);
                     //txtNameFB.setText(txtNameFB.getText()+": cac "+object.getString("name").toString());
+                    new LoadImage().execute(img.toString());//InsertInfo(img);
                     Toast.makeText(login.this,"You had login with " + Name,Toast.LENGTH_LONG).show();
                     Intent intent =new Intent(login.this, profile.class);
                     intent.putExtra("Name",Name);
@@ -147,6 +150,7 @@ public class login extends AppCompatActivity implements
                 }
             }
         });
+
         Bundle parameters = new Bundle();
         parameters.putString("fields", "name");
         graphRequest.setParameters(parameters);
@@ -156,36 +160,39 @@ public class login extends AppCompatActivity implements
 
     @Override
     public void onStart() {
+
         super.onStart();
 
-        OptionalPendingResult<GoogleSignInResult> opr = Auth.GoogleSignInApi.silentSignIn(mGoogleApiClient);
-        if (opr.isDone()) {
-            // If the user's cached credentials are valid, the OptionalPendingResult will be "done"
-            // and the GoogleSignInResult will be available instantly.
-            Log.d(TAG, "Got cached sign-in");
-            GoogleSignInResult result = opr.get();
-            try {
-                handleSignInResult(result);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        } else {
-            // If the user has not previously signed in on this device or the sign-in has expired,
-            // this asynchronous branch will attempt to sign in the user silently.  Cross-device
-            // single sign-on will occur in this branch.
-            showProgressDialog();
-            opr.setResultCallback(new ResultCallback<GoogleSignInResult>() {
-                @Override
-                public void onResult(GoogleSignInResult googleSignInResult) {
-                    hideProgressDialog();
-                    try {
-                        handleSignInResult(googleSignInResult);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-            });
-        }
+//        OptionalPendingResult<GoogleSignInResult> opr = Auth.GoogleSignInApi.silentSignIn(mGoogleApiClient);
+//        if (opr.isDone()) {
+//            // If the user's cached credentials are valid, the OptionalPendingResult will be "done"
+//            // and the GoogleSignInResult will be available instantly.
+//            Log.d(TAG, "Got cached sign-in");
+//            GoogleSignInResult result = opr.get();
+//            try {
+//                handleSignInResult(result);
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//        } else {
+//            // If the user has not previously signed in on this device or the sign-in has expired,
+//            // this asynchronous branch will attempt to sign in the user silently.  Cross-device
+//            // single sign-on will occur in this branch.
+//            showProgressDialog();
+//            opr.setResultCallback(new ResultCallback<GoogleSignInResult>() {
+//                @Override
+//                public void onResult(GoogleSignInResult googleSignInResult) {
+//                    hideProgressDialog();
+//                    try {
+//                        handleSignInResult(googleSignInResult);
+//                    } catch (IOException e) {
+//                        e.printStackTrace();
+//                    }
+//                }
+//            });
+//
+//        }
+
     }
 
     // [START onActivityResult]
@@ -375,6 +382,7 @@ public class login extends AppCompatActivity implements
         switch (v.getId()) {
             case R.id.btnSignIn:
                 signIn();
+                mGoogleApiClient.clearDefaultAccountAndReconnect();
                 break;
         }
     }

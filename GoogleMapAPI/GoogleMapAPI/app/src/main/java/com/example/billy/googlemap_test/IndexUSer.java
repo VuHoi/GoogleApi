@@ -1,16 +1,11 @@
 package com.example.billy.googlemap_test;
 
 import android.content.Intent;
-import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.Toast;
 
 import sqlite.Databasehelper;
 
@@ -27,21 +22,21 @@ public class IndexUSer extends AppCompatActivity {
         myDatabase.Khoitai();
         database = myDatabase.getMyDatabase();
         //myDatabase.db_delete();
-        Cursor cursor=database.rawQuery("select * from USER",null);
-        cursor.moveToLast();
-
-
-        ImageView imageView=findViewById(R.id.imageView);
-        try {
-            byte[] hinhanh = cursor.getBlob(2);
-            Bitmap bitmap1 = BitmapFactory.decodeByteArray(hinhanh, 0, hinhanh.length);
-            imageView.setImageBitmap(bitmap1);
-            Toast.makeText(this, cursor.getString(0), Toast.LENGTH_LONG).show();
-
-        }catch (Exception e)
-        {
-
-        }
+//        Cursor cursor=database.rawQuery("select * from USER",null);
+//        cursor.moveToLast();
+//
+//
+//        ImageView imageView=findViewById(R.id.imageView);
+//        try {
+//            byte[] hinhanh = cursor.getBlob(2);
+//            Bitmap bitmap1 = BitmapFactory.decodeByteArray(hinhanh, 0, hinhanh.length);
+//            imageView.setImageBitmap(bitmap1);
+//            Toast.makeText(this, cursor.getString(0), Toast.LENGTH_LONG).show();
+//
+//        }catch (Exception e)
+//        {
+//
+//        }
         //cursor.close();
 
 
