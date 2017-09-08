@@ -30,6 +30,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import model.Location;
+
 /**
  * Created by Vu Khac Hoi on 9/6/2017.
  */
@@ -86,10 +88,11 @@ public class GetNearbyBanksData extends AsyncTask<Object, String, String> {
 
     }
 
-
+    public static ArrayList<Location> arrayList;
     private void showNearbyPlaces(final List<HashMap<String, String>> nearbyPlaceList)
 
     {
+        arrayList =new ArrayList<>();
 
         for (int i = 0; i < nearbyPlaceList.size(); i++)
 
@@ -103,6 +106,7 @@ public class GetNearbyBanksData extends AsyncTask<Object, String, String> {
             String placeName = googlePlace.get("place_name");
 
             String vicinity = googlePlace.get("vicinity");
+            arrayList.add(new Location(placeName,vicinity,"123"));
 
             double lat = Double.parseDouble(googlePlace.get("lat"));
 
