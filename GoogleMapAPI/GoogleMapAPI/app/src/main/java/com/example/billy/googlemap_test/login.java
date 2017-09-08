@@ -76,13 +76,10 @@ public class login extends AppCompatActivity implements
         FacebookSdk.sdkInitialize(getApplicationContext());
         callbackManager = CallbackManager.Factory.create();
         setContentView(R.layout.activity_login);
-
-
-
+        setTitle("Login");
         button=findViewById(R.id.dangnhap);
         tendangnhap=findViewById(R.id.tendn);
         matkhau=findViewById(R.id.mk);
-
         loginButton = (LoginButton)findViewById(R.id.login_button);
         loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
 
@@ -107,11 +104,17 @@ public class login extends AppCompatActivity implements
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                if(tendangnhap.getText().toString()=="admin" && matkhau.getText().toString()=="admin")
-//                {
+                if(tendangnhap.getText().equals("x") && matkhau.getText().equals("x"))
+                {
                     Intent intent=new Intent(login.this,detail_user.class);
                     startActivity(intent);
-               // }else Toast.makeText(login.this,tendangnhap.getText()+" "+ matkhau.getText(),Toast.LENGTH_LONG).show();
+               }else
+                {
+                    Intent intent =new Intent(login.this, profile.class);
+                    intent.putExtra("Name","Guess");
+                    //intent.putExtra("image",img.toString());
+                    startActivity(intent);
+                }
             }
         });
         findViewById(R.id.btnSignIn).setOnClickListener(this);

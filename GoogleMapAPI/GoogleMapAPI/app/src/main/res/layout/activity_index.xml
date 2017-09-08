@@ -27,62 +27,73 @@
     <android.support.constraint.ConstraintLayout
         android:id="@+id/constraintLayout"
         android:layout_width="match_parent"
-        android:layout_height="254dp"
+        android:layout_height="0dp"
         android:layout_marginBottom="0dp"
         app:layout_constraintBottom_toTopOf="@+id/navi"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/frameLayout"
         tools:layout_editor_absoluteY="143dp">
 
+        <LinearLayout
+            android:id="@+id/linearLayout3"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:orientation="horizontal"
+            android:weightSum="5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <EditText
+                android:id="@+id/edt"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="3"
+                android:textSize="15dp"
+                android:hint="Tìm địa điểm"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <Button
+                android:id="@+id/button5"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:onClick="AddMakerCustom"
+                android:text="Tìm" />
+
+            <Spinner
+                android:id="@+id/spinner"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_weight="1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/button5"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+        </LinearLayout>
+
         <ListView
             android:id="@+id/listview"
             android:layout_width="match_parent"
-            android:layout_height="238dp"
+            android:layout_height="0dp"
             android:layout_marginTop="0dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/edt"
-            tools:layout_editor_absoluteY="33dp" />
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout3" />
 
-        <EditText
-            android:id="@+id/edt"
-            android:layout_width="177dp"
-            android:layout_height="40dp"
-            android:layout_marginStart="0dp"
-            android:layout_marginTop="0dp"
-            android:ems="10"
-            android:hint="Tìm địa điểm"
-            android:inputType="textPersonName"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
 
-        <Spinner
-            android:id="@+id/spinner"
-            android:layout_width="115dp"
-            android:layout_height="36dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginTop="0dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <Button
-
-            android:layout_width="79dp"
-            android:layout_height="40dp"
-            android:layout_marginStart="0dp"
-            android:onClick="AddMakerCustom"
-            android:text="Tìm"
-            app:layout_constraintStart_toEndOf="@+id/edt"
-            app:layout_constraintTop_toTopOf="parent" />
     </android.support.constraint.ConstraintLayout>
 
     <android.support.design.widget.BottomNavigationView
         android:id="@+id/navi"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="45dp"
         android:layout_marginBottom="0dp"
-        android:layout_marginStart="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:menu="@menu/testnavi"></android.support.design.widget.BottomNavigationView>
+        app:menu="@menu/testnavi"
+        tools:layout_editor_absoluteY="466dp"></android.support.design.widget.BottomNavigationView>
 
 </android.support.constraint.ConstraintLayout>

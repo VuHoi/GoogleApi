@@ -5,12 +5,15 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.location.Address;
 import android.location.Criteria;
 import android.location.Geocoder;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -35,6 +38,9 @@ import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+
+import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent;
+import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEventListener;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -69,7 +75,7 @@ public  class Index extends AppCompatActivity implements OnMapReadyCallback {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setTitle("Cửa hàng");
         ActivityCompat.requestPermissions(Index.this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission.ACCESS_COARSE_LOCATION}, 1);
-
+        getActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#330000ff")));
         // ActivityCompat.requestPermissions(Index.this,new String[]{Manifest.permission.,Manifest.permission.ACCESS_COARSE_LOCATION},1);
         editText7 = findViewById(R.id.edt);
         myDatabase.Khoitai();
@@ -81,6 +87,8 @@ public  class Index extends AppCompatActivity implements OnMapReadyCallback {
 
         Addcontrol();
         AddEvent();
+
+
 
     }
 
@@ -111,7 +119,8 @@ public  class Index extends AppCompatActivity implements OnMapReadyCallback {
             // for ActivityCompat#requestPermissions for more details.
             return;
 
-        }
+        }  map.getUiSettings().setMyLocationButtonEnabled(true);
+        map.setMyLocationEnabled(true);
 
         LocationManager service = (LocationManager) getSystemService(LOCATION_SERVICE);
         Criteria criteria = new Criteria();
@@ -124,8 +133,7 @@ public  class Index extends AppCompatActivity implements OnMapReadyCallback {
 ////
 //       lastlocation = location;
 
-        map.getUiSettings().setMyLocationButtonEnabled(true);
-        map.setMyLocationEnabled(true);
+
 
 //        map.addMarker(new MarkerOptions()
 //                .title("YEN SUSHI & SAKE PUB 1")
@@ -157,7 +165,19 @@ public  class Index extends AppCompatActivity implements OnMapReadyCallback {
             Toast.makeText(this, "xx", Toast.LENGTH_LONG).show();
             return;
         }
-
+        map.setOnMyLocationButtonClickListener(new GoogleMap.OnMyLocationButtonClickListener(){
+            @Override
+            public boolean onMyLocationButtonClick()
+            {
+                //Toast.makeText(this,"X",Toast.LENGTH_LONG).show();
+               // onMapReady(map);
+                map.clear();
+                onMapReady(map);
+                AddMakerCustom(null);
+                restaurent(null);
+                return false;
+            }
+        });
 
     }
 
@@ -210,7 +230,6 @@ public  class Index extends AppCompatActivity implements OnMapReadyCallback {
 
 
                 map.setMyLocationEnabled(true);
-
             }
 
         } else
@@ -274,6 +293,24 @@ public  class Index extends AppCompatActivity implements OnMapReadyCallback {
     //search
     void AddEvent() {
         //  myDatabase.db_delete();
+        KeyboardVisibilityEvent.setEventListener(
+                this,
+                new KeyboardVisibilityEventListener() {
+                    @Override
+                    public void onVisibilityChanged(boolean isOpen) {
+                        BottomNavigationView bottomNavigationView=findViewById(R.id.navi);
+
+                        if(isOpen)
+                        {
+                            //listView.setVisibility(View.INVISIBLE);
+                            bottomNavigationView.setVisibility(View.INVISIBLE);
+                        }else {
+                            bottomNavigationView.setVisibility(View.VISIBLE);
+                            //listView.setVisibility(View.VISIBLE);
+                        }
+                    }
+                });
+
         Cursor cursor = database.rawQuery("select * from storeon", null);
         cursor.moveToFirst();
 
