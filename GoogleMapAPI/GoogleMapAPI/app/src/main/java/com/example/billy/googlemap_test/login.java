@@ -14,6 +14,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -65,6 +67,8 @@ public class login extends AppCompatActivity implements
     private LoginButton loginButton;
     private CallbackManager callbackManager;
 
+    Button button;
+    EditText tendangnhap,matkhau;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,6 +79,9 @@ public class login extends AppCompatActivity implements
 
 
 
+        button=findViewById(R.id.dangnhap);
+        tendangnhap=findViewById(R.id.tendn);
+        matkhau=findViewById(R.id.mk);
 
         loginButton = (LoginButton)findViewById(R.id.login_button);
         loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
@@ -97,7 +104,16 @@ public class login extends AppCompatActivity implements
         });
 
 
-        // Button listeners
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+//                if(tendangnhap.getText().toString()=="admin" && matkhau.getText().toString()=="admin")
+//                {
+                    Intent intent=new Intent(login.this,detail_user.class);
+                    startActivity(intent);
+               // }else Toast.makeText(login.this,tendangnhap.getText()+" "+ matkhau.getText(),Toast.LENGTH_LONG).show();
+            }
+        });
         findViewById(R.id.btnSignIn).setOnClickListener(this);
 
         // [START configure_signin]
@@ -256,6 +272,7 @@ public class login extends AppCompatActivity implements
           } catch (MalformedURLException e) {
               e.printStackTrace();
           } catch (IOException e) {
+              e.printStackTrace();
               e.printStackTrace();
           }
           return bitmap;
