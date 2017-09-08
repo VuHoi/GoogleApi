@@ -3,10 +3,7 @@ package com.example.billy.googlemap_test;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.location.Address;
 import android.location.Criteria;
 import android.location.Geocoder;
@@ -75,7 +72,6 @@ public  class Index extends AppCompatActivity implements OnMapReadyCallback {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setTitle("Cửa hàng");
         ActivityCompat.requestPermissions(Index.this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission.ACCESS_COARSE_LOCATION}, 1);
-        getActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#330000ff")));
         // ActivityCompat.requestPermissions(Index.this,new String[]{Manifest.permission.,Manifest.permission.ACCESS_COARSE_LOCATION},1);
         editText7 = findViewById(R.id.edt);
         myDatabase.Khoitai();
@@ -165,6 +161,8 @@ public  class Index extends AppCompatActivity implements OnMapReadyCallback {
             Toast.makeText(this, "xx", Toast.LENGTH_LONG).show();
             return;
         }
+
+
         map.setOnMyLocationButtonClickListener(new GoogleMap.OnMyLocationButtonClickListener(){
             @Override
             public boolean onMyLocationButtonClick()
@@ -175,6 +173,13 @@ public  class Index extends AppCompatActivity implements OnMapReadyCallback {
                 onMapReady(map);
                 AddMakerCustom(null);
                 restaurent(null);
+
+                for(Location location1:GetNearbyBanksData.arrayList)
+                {
+                    arrayList.add(location1);
+                }
+                arrayAdapter.notifyDataSetChanged();
+
                 return false;
             }
         });
@@ -311,15 +316,15 @@ public  class Index extends AppCompatActivity implements OnMapReadyCallback {
                     }
                 });
 
-        Cursor cursor = database.rawQuery("select * from storeon", null);
-        cursor.moveToFirst();
-
-        while (!cursor.isAfterLast()) {
-            arrayList.add(new Location(cursor.getString(1), cursor.getString(2), cursor.getString(3)));
-            arrayAdapter.notifyDataSetChanged();
-            cursor.moveToNext();
-        }
-        cursor.close();
+//        Cursor cursor = database.rawQuery("select * from storeon", null);
+//        cursor.moveToFirst();
+//
+//        while (!cursor.isAfterLast()) {
+//            arrayList.add(new Location(cursor.getString(1), cursor.getString(2), cursor.getString(3)));
+//            arrayAdapter.notifyDataSetChanged();
+//            cursor.moveToNext();
+//        }
+//        cursor.close();
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
