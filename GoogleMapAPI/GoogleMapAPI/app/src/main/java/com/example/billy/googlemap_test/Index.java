@@ -263,7 +263,7 @@ public  class Index extends AppCompatActivity implements OnMapReadyCallback {
 
         googlePlaceUrl.append("&sensor=true");
 
-        googlePlaceUrl.append("&key=" + "AIzaSyBLEPBRfw7sMb73Mr88L91Jqh3tuE4mKsE");
+        googlePlaceUrl.append("&key=" + "AIzaSyAafUK3_rCTM6esCaZKIj7DNTu8ZkQ6QCw");
 
         Toast.makeText(this, googlePlaceUrl, Toast.LENGTH_SHORT).show();
 

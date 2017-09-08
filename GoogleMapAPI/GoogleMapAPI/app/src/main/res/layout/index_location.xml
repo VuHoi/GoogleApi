@@ -1,26 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
-<TextView
-    android:layout_width="wrap_content"
-    android:id="@+id/txtlocation"
-    android:text="location"
-    android:textStyle="bold"
-    android:textSize="22dp"
-    android:layout_height="wrap_content" />
+
     <TextView
-        android:layout_width="wrap_content"
+        android:id="@+id/txtlocation"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:textSize="15dp"
+        android:layout_marginEnd="5dp"
+        android:text="location"
+        android:textSize="18dp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@+id/photo_ref"
+        app:layout_constraintHorizontal_bias="0.082"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
         android:id="@+id/txtaddress"
-        android:text="Address"/>
-    <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="5dp"
+        android:text="Address"
         android:textSize="15dp"
+        app:layout_constraintEnd_toStartOf="@+id/photo_ref"
+        app:layout_constraintHorizontal_bias="0.073"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtlocation" />
+
+    <TextView
+        android:id="@+id/txtphone"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
         android:text="phone"
-        android:id="@+id/txtphone"/>
+        android:textSize="15dp"
+        app:layout_constraintEnd_toStartOf="@+id/photo_ref"
+        app:layout_constraintHorizontal_bias="0.069"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtaddress" />
+
+    <ImageView
+        android:id="@+id/photo_ref"
+        android:layout_width="100dp"
+        android:layout_height="84dp"
+        android:layout_marginEnd="3dp"
+        android:layout_marginTop="0dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/cast_abc_scrubber_control_to_pressed_mtrl_000" />
 
 
-</LinearLayout>
+</android.support.constraint.ConstraintLayout>

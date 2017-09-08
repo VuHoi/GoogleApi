@@ -106,7 +106,12 @@ public class GetNearbyBanksData extends AsyncTask<Object, String, String> {
             String placeName = googlePlace.get("place_name");
 
             String vicinity = googlePlace.get("vicinity");
-            arrayList.add(new Location(placeName,vicinity,"123"));
+
+            String photo_ref=googlePlace.get("photo_reference");
+
+
+            arrayList.add(new Location(placeName,vicinity,"123",photo_ref));
+
 
             double lat = Double.parseDouble(googlePlace.get("lat"));
 
@@ -164,8 +169,6 @@ public class GetNearbyBanksData extends AsyncTask<Object, String, String> {
 
         // Building the url to the web service
         String url = "https://maps.googleapis.com/maps/api/directions/"+output+"?"+parameters;
-
-
         return url;
 
     }
