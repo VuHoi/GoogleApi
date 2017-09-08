@@ -38,24 +38,24 @@ public class detail_user extends AppCompatActivity {
         lsv.setAdapter(adapter);
 
 
-        Cursor cursor=database.rawQuery("select * from user",null);
-        cursor.moveToFirst();
-        while (!cursor.isAfterLast())
-        {
+        try {
+            Cursor cursor = database.rawQuery("select * from user", null);
+            cursor.moveToFirst();
+            while (!cursor.isAfterLast()) {
 
-            String name=cursor.getString(1);
-            byte[] hinhanh = cursor.getBlob(2);
-            Bitmap bitmap1 = BitmapFactory.decodeByteArray(hinhanh, 0, hinhanh.length);
+                String name = cursor.getString(1);
+                byte[] hinhanh = cursor.getBlob(2);
+                Bitmap bitmap1 = BitmapFactory.decodeByteArray(hinhanh, 0, hinhanh.length);
 
-            inforlogin info=new inforlogin(name,bitmap1);
-           // Toast.makeText(this, cursor.getString(0), Toast.LENGTH_LONG).show();
+                inforlogin info = new inforlogin(name, bitmap1);
+                // Toast.makeText(this, cursor.getString(0), Toast.LENGTH_LONG).show();
 
-            arrayList.add(info);
-            adapter.notifyDataSetChanged();
-            cursor.moveToNext();
-        }
-        cursor.close();
-
+                arrayList.add(info);
+                adapter.notifyDataSetChanged();
+                cursor.moveToNext();
+            }
+            cursor.close();
+        }catch (Exception e){};
 
     }
 

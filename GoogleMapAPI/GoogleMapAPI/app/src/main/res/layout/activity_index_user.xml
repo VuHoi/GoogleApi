@@ -6,6 +6,8 @@
     android:background="@drawable/wallpaper"
     android:layout_height="match_parent"
     tools:context="com.example.billy.googlemap_test.IndexUSer">
+
+
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="275dp"

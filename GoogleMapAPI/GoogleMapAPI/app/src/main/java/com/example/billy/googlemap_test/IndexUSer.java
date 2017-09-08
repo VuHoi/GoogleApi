@@ -17,27 +17,12 @@ public class IndexUSer extends AppCompatActivity {
         setContentView(R.layout.activity_index_user);
         Button button = findViewById(R.id.button2);
         Button btnlogin = findViewById(R.id.button);
+        setTitle("MyLife");
         Databasehelper myDatabase = new Databasehelper(this);
         SQLiteDatabase database;
         myDatabase.Khoitai();
         database = myDatabase.getMyDatabase();
-        //myDatabase.db_delete();
-//        Cursor cursor=database.rawQuery("select * from USER",null);
-//        cursor.moveToLast();
-//
-//
-//        ImageView imageView=findViewById(R.id.imageView);
-//        try {
-//            byte[] hinhanh = cursor.getBlob(2);
-//            Bitmap bitmap1 = BitmapFactory.decodeByteArray(hinhanh, 0, hinhanh.length);
-//            imageView.setImageBitmap(bitmap1);
-//            Toast.makeText(this, cursor.getString(0), Toast.LENGTH_LONG).show();
-//
-//        }catch (Exception e)
-//        {
-//
-//        }
-        //cursor.close();
+
 
 
 

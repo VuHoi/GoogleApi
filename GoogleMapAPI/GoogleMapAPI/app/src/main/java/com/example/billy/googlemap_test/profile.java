@@ -21,6 +21,7 @@ public class profile extends AppCompatActivity {
         setContentView(R.layout.activity_profile);
         Addcontrol();
         Intent intent=getIntent();
+        setTitle("Profile");
         String imagetemp=intent.getStringExtra("image");
         try
         {
