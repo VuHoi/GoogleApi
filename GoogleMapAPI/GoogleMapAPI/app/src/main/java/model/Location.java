@@ -10,12 +10,7 @@ public class Location implements Serializable {
     private String name;
     private String locate;
     private String phone;
-
-    public Location(String name, String locate, String phone) {
-        this.name = name;
-        this.locate = locate;
-        this.phone = phone;
-    }
+    private String photo_ref;
 
     public String getName() {
         return name;
@@ -41,8 +36,19 @@ public class Location implements Serializable {
         this.phone = phone;
     }
 
-    @Override
-    public String toString() {
-        return name+"\n"+ locate + "\n" +phone;
+    public String getPhoto_ref() {
+        return photo_ref;
+    }
+
+    public void setPhoto_ref(String photo_ref) {
+        this.photo_ref = photo_ref;
+    }
+
+    public Location(String name, String locate, String phone, String photo_ref) {
+
+        this.name = name;
+        this.locate = locate;
+        this.phone = phone;
+        this.photo_ref = photo_ref;
     }
 }
