@@ -46,7 +46,7 @@ import model.Location;
 import sqlite.Databasehelper;
 
 public  class Index extends AppCompatActivity implements OnMapReadyCallback {
-    GoogleMap map;
+    public  static  GoogleMap map;
     ListView listView;
     ArrayList<Location> arrayList;
     TextView editText7;
@@ -135,47 +135,38 @@ public  class Index extends AppCompatActivity implements OnMapReadyCallback {
 //                sushi1, 15));
 
         if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            Toast.makeText(this, "xx", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Lỗi permission", Toast.LENGTH_LONG).show();
             return;
         }
-
-
         map.setOnMyLocationButtonClickListener(new GoogleMap.OnMyLocationButtonClickListener(){
             @Override
             public boolean onMyLocationButtonClick()
             {
-                //Toast.makeText(this,"X",Toast.LENGTH_LONG).show();
-               // onMapReady(map);
-                map.clear();
-                onMapReady(map);
-                AddMakerCustom(null);
-                restaurent(null);
-
-                //arrayList=new ArrayList<>();
-                for(Location location1:GetNearbyBanksData.arrayList)
-                {
-                    arrayList.add(location1);
-                }
-                arrayAdapter.notifyDataSetChanged();
-
-
+              UpdateRes();
                 return false;
             }
         });
 
     }
+    void UpdateRes()
+    {
+        map.clear();
 
+
+        restaurent(null);
+
+
+    }
     //Add restaurant
     public void AddMakerCustom(View view) {
         Geocoder geoCoder = new Geocoder(Index.this, Locale.getDefault());
         List<Address> addresses = null;
         try {
             addresses = geoCoder.getFromLocationName(editText7.getText() + "", 5);
-            Toast.makeText(Index.this, addresses.size() + "", Toast.LENGTH_SHORT).show();
             if (addresses.size() > 0) {
                 Double lat = (double) (addresses.get(0).getLatitude());
 
-                Toast.makeText(Index.this, addresses.get(0).getLatitude() + "", Toast.LENGTH_SHORT).show();
+
                 Double lon = (double) (addresses.get(0).getLongitude());
 
                 Log.d("lat-long", "" + lat + "......." + lon);
@@ -189,7 +180,7 @@ public  class Index extends AppCompatActivity implements OnMapReadyCallback {
                 map.moveCamera(CameraUpdateFactory.newLatLngZoom(user, 15));
 
                 // Zoom in, animating the camera.
-                map.animateCamera(CameraUpdateFactory.zoomTo(10), 2000, null);
+                map.animateCamera(CameraUpdateFactory.zoomTo(15), 2000, null);
 
             }
         } catch (IOException e) {
@@ -244,7 +235,6 @@ public  class Index extends AppCompatActivity implements OnMapReadyCallback {
 
         googlePlaceUrl.append("&key=" + "AIzaSyAafUK3_rCTM6esCaZKIj7DNTu8ZkQ6QCw");
 
-        Toast.makeText(this, googlePlaceUrl, Toast.LENGTH_SHORT).show();
 
         Log.d("MapsActivity", "url = " + googlePlaceUrl.toString());
 
@@ -282,17 +272,7 @@ public  class Index extends AppCompatActivity implements OnMapReadyCallback {
 
     //search
     void AddEvent() {
-        //  myDatabase.db_delete();
 
-//        Cursor cursor = database.rawQuery("select * from storeon", null);
-//        cursor.moveToFirst();
-//
-//        while (!cursor.isAfterLast()) {
-//            arrayList.add(new Location(cursor.getString(1), cursor.getString(2), cursor.getString(3)));
-//            arrayAdapter.notifyDataSetChanged();
-//            cursor.moveToNext();
-//        }
-//        cursor.close();
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -345,7 +325,7 @@ public  class Index extends AppCompatActivity implements OnMapReadyCallback {
 
 
     public void restaurent(View view) {
-        Object dataTransfer[] = new Object[2];
+        Object dataTransfer[] = new Object[4];
 
         GetNearbyBanksData getNearbyPlacesData = new GetNearbyBanksData();
 
@@ -359,6 +339,8 @@ public  class Index extends AppCompatActivity implements OnMapReadyCallback {
         dataTransfer[0] = map;
 
         dataTransfer[1] = url;
+        dataTransfer[2]=arrayAdapter;
+        dataTransfer[3]=arrayList;
         Circle circle = map.addCircle(new CircleOptions()
                 .center(userLocation)
                 .radius(PROXIMITY_RADIUS)
@@ -366,7 +348,7 @@ public  class Index extends AppCompatActivity implements OnMapReadyCallback {
 
 
         getNearbyPlacesData.execute(dataTransfer);
-        map.moveCamera(CameraUpdateFactory.newLatLngZoom(userLocation, 20));
+        map.moveCamera(CameraUpdateFactory.newLatLngZoom(userLocation, 15));
 
         // Zoom in, animating the camera.
         map.animateCamera(CameraUpdateFactory.zoomTo(15), 2000, null);
