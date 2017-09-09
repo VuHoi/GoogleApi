@@ -10,7 +10,7 @@ import android.location.Geocoder;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.design.widget.BottomNavigationView;
+import android.support.design.widget.BottomSheetBehavior;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -35,9 +35,6 @@ import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-
-import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent;
-import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEventListener;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -65,6 +62,8 @@ public  class Index extends AppCompatActivity implements OnMapReadyCallback {
     ArrayAdapter<String> arrayAdapterdis;
     Spinner spinner;
 
+    private BottomSheetBehavior mBottomSheetBehavior;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,7 +72,14 @@ public  class Index extends AppCompatActivity implements OnMapReadyCallback {
         setTitle("Cửa hàng");
         ActivityCompat.requestPermissions(Index.this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission.ACCESS_COARSE_LOCATION}, 1);
         // ActivityCompat.requestPermissions(Index.this,new String[]{Manifest.permission.,Manifest.permission.ACCESS_COARSE_LOCATION},1);
-        editText7 = findViewById(R.id.edt);
+
+        getSupportActionBar().setDisplayShowCustomEnabled(true);
+        getSupportActionBar().setCustomView(R.layout.toolbar_search);
+        View view =getSupportActionBar().getCustomView();
+        editText7 = view.findViewById(R.id.edt);
+        spinner = view.findViewById(R.id.spinner);
+
+
         myDatabase.Khoitai();
         database = myDatabase.getMyDatabase();
         //ready map
@@ -107,12 +113,6 @@ public  class Index extends AppCompatActivity implements OnMapReadyCallback {
             // TODO: Consider calling
 
             map.setMyLocationEnabled(true);
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
             return;
 
         }  map.getUiSettings().setMyLocationButtonEnabled(true);
@@ -124,31 +124,8 @@ public  class Index extends AppCompatActivity implements OnMapReadyCallback {
         android.location.Location location = service.getLastKnownLocation(provider);
         userLocation = new LatLng(location.getLatitude(), location.getLongitude());
         latitude = location.getLatitude();
-//
         longitude = location.getLongitude();
-////
-//       lastlocation = location;
 
-
-
-//        map.addMarker(new MarkerOptions()
-//                .title("YEN SUSHI & SAKE PUB 1")
-//                .snippet("15A Lê Quý Đôn, P.6, Q.3, HCM\n" +
-//                        "Điện thoại: 028 39 330 167\n")
-//                .position(sushi1));
-//
-//        map.addMarker(new MarkerOptions()
-//                .title("YEN SUSHI & SAKE PUB 2")
-//                .snippet(" 92 Nam Kì Khởi Nghĩa, P. Bến Nghé, Q.1, HCM\n" +
-//                        "Điện thoại: 028 38 218 586\n")
-//                .position(new LatLng(10.7721, 106.701)));
-//
-//        map.addMarker(new MarkerOptions()
-//                .title("YEN SUSHI & SAKE PUB 3")
-//                .snippet(" 185 Nguyễn Đức Cảnh, Q.7, HCM\n" +
-//                        "Điện thoại: 028 54 125 316\n")
-//                .position(new LatLng(10.7214484, 106.7122184)));
-//
         map.addMarker(new MarkerOptions()
                 .title("YEN SUSHI PREMIUM ")
                 .snippet("123 Bà Huyện Thanh Quan, Q.3, HCM\n" +
@@ -174,11 +151,13 @@ public  class Index extends AppCompatActivity implements OnMapReadyCallback {
                 AddMakerCustom(null);
                 restaurent(null);
 
+                //arrayList=new ArrayList<>();
                 for(Location location1:GetNearbyBanksData.arrayList)
                 {
                     arrayList.add(location1);
                 }
                 arrayAdapter.notifyDataSetChanged();
+
 
                 return false;
             }
@@ -279,13 +258,19 @@ public  class Index extends AppCompatActivity implements OnMapReadyCallback {
 
     void Addcontrol() {
 
+        View bottomSheet = findViewById( R.id.bottom_sheet );
+        mBottomSheetBehavior = BottomSheetBehavior.from(bottomSheet);
+
+        mBottomSheetBehavior.setPeekHeight(80);
+        mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+
 
         arrayList = new ArrayList<>();
 
         arrayAdapter = new adapterlocation(this, R.layout.index_location, arrayList);
         listView = findViewById(R.id.listview);
         listView.setAdapter(arrayAdapter);
-        spinner = findViewById(R.id.spinner);
+
         distance = new ArrayList<>();
         distance.add("1km");
         distance.add("2km");
@@ -298,23 +283,6 @@ public  class Index extends AppCompatActivity implements OnMapReadyCallback {
     //search
     void AddEvent() {
         //  myDatabase.db_delete();
-        KeyboardVisibilityEvent.setEventListener(
-                this,
-                new KeyboardVisibilityEventListener() {
-                    @Override
-                    public void onVisibilityChanged(boolean isOpen) {
-                        BottomNavigationView bottomNavigationView=findViewById(R.id.navi);
-
-                        if(isOpen)
-                        {
-                            //listView.setVisibility(View.INVISIBLE);
-                            bottomNavigationView.setVisibility(View.INVISIBLE);
-                        }else {
-                            bottomNavigationView.setVisibility(View.VISIBLE);
-                            //listView.setVisibility(View.VISIBLE);
-                        }
-                    }
-                });
 
 //        Cursor cursor = database.rawQuery("select * from storeon", null);
 //        cursor.moveToFirst();
@@ -325,6 +293,7 @@ public  class Index extends AppCompatActivity implements OnMapReadyCallback {
 //            cursor.moveToNext();
 //        }
 //        cursor.close();
+
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -334,7 +303,19 @@ public  class Index extends AppCompatActivity implements OnMapReadyCallback {
             }
         });
 
-
+//
+//        mBottomSheetBehavior.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
+//            @Override
+//            public void onStateChanged(View bottomSheet, int newState) {
+//                if (newState == BottomSheetBehavior.STATE_COLLAPSED) {
+//                    mBottomSheetBehavior.setPeekHeight(0);
+//                }
+//            }
+//
+//            @Override
+//            public void onSlide(View bottomSheet, float slideOffset) {
+//            }
+//        });
 
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override

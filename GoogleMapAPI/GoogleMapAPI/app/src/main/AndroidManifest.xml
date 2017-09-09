@@ -34,7 +34,7 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyDZ_DMsoucQpXYmprIS_7WFvFde_KBDAqI" />
 
-        <activity android:name=".IndexUSer">
+        <activity android:name=".Index">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -45,7 +45,7 @@
         <activity android:name=".listroom" />
         <activity android:name=".listdish" />
         <activity android:name=".UserLogin" />
-        <activity android:name=".Index" />
+        <activity android:name=".IndexUSer" />
         <activity android:name=".Info_member" />
         <activity android:name=".profile" />
         <activity android:name=".register" />
