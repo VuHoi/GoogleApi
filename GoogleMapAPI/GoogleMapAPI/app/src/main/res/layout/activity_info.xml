@@ -26,7 +26,8 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="@mipmap/ic_launcher"
+            android:background="@drawable/circle1"
+            android:drawableTop="@drawable/room_info"
             android:gravity="bottom|center"
             android:text="Room"
             android:textSize="15dp" />
@@ -36,7 +37,8 @@
             android:layout_height="match_parent"
             android:layout_marginLeft="2dp"
             android:layout_weight="1"
-            android:background="@mipmap/ic_launcher"
+            android:background="@drawable/circle1"
+            android:drawableTop="@drawable/review_info"
             android:gravity="bottom|center"
             android:text="Review"
             android:textSize="15dp" />
@@ -45,8 +47,9 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_marginLeft="2dp"
+            android:background="@drawable/circle1"
             android:layout_weight="1"
-            android:background="@mipmap/ic_launcher"
+            android:drawableTop="@drawable/save_info"
             android:gravity="bottom|center"
             android:text="Save"
             android:textSize="15dp" />
@@ -56,7 +59,8 @@
             android:layout_height="match_parent"
             android:layout_marginLeft="2dp"
             android:layout_weight="1"
-            android:background="@mipmap/ic_launcher"
+            android:background="@drawable/circle1"
+            android:drawableTop="@drawable/share_info"
             android:gravity="bottom|center"
             android:text="Share"
             android:textSize="15dp" />
