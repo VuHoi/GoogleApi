@@ -11,6 +11,7 @@ public class Location implements Serializable {
     private String locate;
     private String phone;
     private String photo_ref;
+    private double lati,longti;
 
     public String getName() {
         return name;
@@ -28,8 +29,25 @@ public class Location implements Serializable {
         this.locate = locate;
     }
 
+    public double getLati() {
+        return lati;
+    }
+
+    public void setLati(double lati) {
+        this.lati = lati;
+    }
+
+    public double getLongti() {
+        return longti;
+    }
+
+    public void setLongti(double longti) {
+        this.longti = longti;
+    }
+
     public String getPhone() {
         return phone;
+
     }
 
     public void setPhone(String phone) {
@@ -44,11 +62,21 @@ public class Location implements Serializable {
         this.photo_ref = photo_ref;
     }
 
+
     public Location(String name, String locate, String phone, String photo_ref) {
 
         this.name = name;
         this.locate = locate;
         this.phone = phone;
         this.photo_ref = photo_ref;
+    }
+
+    public Location(String name, String locate, String phone, String photo_ref, double lati, double longti) {
+        this.name = name;
+        this.locate = locate;
+        this.phone = phone;
+        this.photo_ref = photo_ref;
+        this.lati = lati;
+        this.longti = longti;
     }
 }

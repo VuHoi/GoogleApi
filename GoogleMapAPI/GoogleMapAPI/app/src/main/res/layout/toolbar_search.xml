@@ -20,7 +20,7 @@
             android:layout_weight="5"
             android:hint="Tìm địa điểm"
             android:textSize="15dp"
-
+            android:visibility="invisible"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 

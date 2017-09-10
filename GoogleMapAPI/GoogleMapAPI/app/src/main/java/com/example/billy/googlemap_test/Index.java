@@ -18,6 +18,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.TranslateAnimation;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -35,12 +36,15 @@ import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.Polyline;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import Support_Json.ParserTask;
+import Support_Json.ReadTask;
 import adapter.adapterlocation;
 import model.Location;
 import sqlite.Databasehelper;
@@ -143,9 +147,46 @@ public  class Index extends AppCompatActivity implements OnMapReadyCallback {
             public boolean onMyLocationButtonClick()
             {
               UpdateRes();
+
+
                 return false;
             }
         });
+        final int[] i = {0};
+        map.setOnMyLocationChangeListener(new GoogleMap.OnMyLocationChangeListener() {
+
+            @Override
+            public void onMyLocationChange(android.location.Location location) {
+
+                latitude = location.getLatitude();
+                longitude = location.getLongitude();
+            }
+
+
+        });
+
+    }
+
+    private String  getMapsApiDirectionsUrl(LatLng origin,LatLng dest) {
+        // Origin of route
+        String str_origin = "origin="+origin.latitude+","+origin.longitude;
+
+        // Destination of route
+        String str_dest = "destination="+dest.latitude+","+dest.longitude;
+
+
+        // Sensor enabled
+        String sensor = "sensor=false";
+
+        // Building the parameters to the web service
+        String parameters = str_origin+"&"+str_dest+"&"+sensor;
+
+        // Output format
+        String output = "json";
+
+        // Building the url to the web service
+        String url = "https://maps.googleapis.com/maps/api/directions/"+output+"?"+parameters;
+        return url;
 
     }
     void UpdateRes()
@@ -243,17 +284,37 @@ public  class Index extends AppCompatActivity implements OnMapReadyCallback {
 
     }
 
-
+    View bottomSheet;
     Button button;
 
     void Addcontrol() {
 
-        View bottomSheet = findViewById( R.id.bottom_sheet );
+         bottomSheet = findViewById( R.id.bottom_sheet );
         mBottomSheetBehavior = BottomSheetBehavior.from(bottomSheet);
 
-        mBottomSheetBehavior.setPeekHeight(80);
-        mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
 
+
+//        mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+        mBottomSheetBehavior.setPeekHeight(80);
+        TranslateAnimation animation = new TranslateAnimation(0.0f, 0.0f,
+                200f, 0.0f);          //  new TranslateAnimation(xFrom,xTo, yFrom,yTo)
+        animation.setDuration(2000);  // animation duration
+        animation.setRepeatCount(0);  // animation repeat count
+        animation.setRepeatMode(0);   // repeat animation (left to right, right to left )
+        animation.setFillAfter(true);
+        bottomSheet.startAnimation(animation);
+//        mBottomSheetBehavior.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
+//            @Override
+//            public void onStateChanged(@NonNull View bottomSheet, int newState) {
+//                bottomSheet.animate().translationY(200).setDuration(0).start();
+//            }
+//
+//            @Override
+//            public void onSlide(@NonNull View bottomSheet, float slideOffset) {
+//                bottomSheet.animate().scaleX(1 - slideOffset).scaleY(1 - slideOffset).setDuration(0).start();
+//            }
+//
+//        });
 
         arrayList = new ArrayList<>();
 
@@ -270,6 +331,7 @@ public  class Index extends AppCompatActivity implements OnMapReadyCallback {
     }
 
 
+    int Posi;
     //search
     void AddEvent() {
 
@@ -279,23 +341,12 @@ public  class Index extends AppCompatActivity implements OnMapReadyCallback {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Intent intent = new Intent(Index.this, Info.class);
                 intent.putExtra("object", arrayList.get(i));
-                startActivity(intent);
+                Posi=i;
+                startActivityForResult(intent,123);
             }
         });
 
-//
-//        mBottomSheetBehavior.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
-//            @Override
-//            public void onStateChanged(View bottomSheet, int newState) {
-//                if (newState == BottomSheetBehavior.STATE_COLLAPSED) {
-//                    mBottomSheetBehavior.setPeekHeight(0);
-//                }
-//            }
-//
-//            @Override
-//            public void onSlide(View bottomSheet, float slideOffset) {
-//            }
-//        });
+
 
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -342,7 +393,7 @@ public  class Index extends AppCompatActivity implements OnMapReadyCallback {
         dataTransfer[2]=arrayAdapter;
         dataTransfer[3]=arrayList;
         Circle circle = map.addCircle(new CircleOptions()
-                .center(userLocation)
+                .center(new LatLng(latitude,longitude))
                 .radius(PROXIMITY_RADIUS)
                 .fillColor(0x550000FF).strokeColor(0x550000FF));
 
@@ -355,5 +406,27 @@ public  class Index extends AppCompatActivity implements OnMapReadyCallback {
     }
 
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(requestCode==123 && resultCode== RESULT_OK)
+        {
 
+                for (Polyline polyline : ParserTask.polylines) {
+                    polyline.remove();
+                }
+                double lati=arrayList.get(Posi).getLati();
+                double longti=arrayList.get(Posi).getLongti();
+                LatLng latLng=new LatLng(lati,longti);
+                String url = getMapsApiDirectionsUrl(Index.userLocation, latLng);
+                ReadTask downloadTask = new ReadTask();
+                // Start downloading json data from Google Directions API
+                downloadTask.execute(url);
+                Toast.makeText(this,"Tìm đường thành công",Toast.LENGTH_LONG).show();
+                mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+
+
+        }
+        else Toast.makeText(this,"What??",Toast.LENGTH_LONG).show();
+        super.onActivityResult(requestCode, resultCode, data);
+    }
 }
