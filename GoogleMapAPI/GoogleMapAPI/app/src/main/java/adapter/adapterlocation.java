@@ -47,7 +47,11 @@ public class adapterlocation extends ArrayAdapter<Location> {
         textView.setText(hoa.getName().toString());
         textView1.setText(hoa.getLocate().toString());
         textView2.setText(hoa.getPhone().toString());
-        Picasso.with(getContext()).load("https://maps.googleapis.com/maps/api/place/photo?maxwidth=100&photoreference="+hoa.getPhoto_ref()+"&key=AIzaSyAafUK3_rCTM6esCaZKIj7DNTu8ZkQ6QCw").into(imageView);
+        //Picasso.with(getContext()).load("https://maps.googleapis.com/maps/api/place/photo?maxwidth=100&photoreference="+hoa.getPhoto_ref()+"&key=AIzaSyAafUK3_rCTM6esCaZKIj7DNTu8ZkQ6QCw").into(imageView);
+        Picasso.with(context)
+                .load("https://maps.googleapis.com/maps/api/place/photo?maxwidth=100&photoreference="+hoa.getPhoto_ref()+"&key=AIzaSyAafUK3_rCTM6esCaZKIj7DNTu8ZkQ6QCw")
+                .error(R.drawable.res_icon)
+                .into(imageView);
         return row;
     }
 }

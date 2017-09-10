@@ -10,7 +10,7 @@ import android.location.Geocoder;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.design.widget.BottomNavigationView;
+import android.support.design.widget.BottomSheetBehavior;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -18,6 +18,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.TranslateAnimation;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -35,21 +36,21 @@ import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-
-import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent;
-import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEventListener;
+import com.google.android.gms.maps.model.Polyline;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import Support_Json.ParserTask;
+import Support_Json.ReadTask;
 import adapter.adapterlocation;
 import model.Location;
 import sqlite.Databasehelper;
 
 public  class Index extends AppCompatActivity implements OnMapReadyCallback {
-    GoogleMap map;
+    public  static  GoogleMap map;
     ListView listView;
     ArrayList<Location> arrayList;
     TextView editText7;
@@ -65,6 +66,8 @@ public  class Index extends AppCompatActivity implements OnMapReadyCallback {
     ArrayAdapter<String> arrayAdapterdis;
     Spinner spinner;
 
+    private BottomSheetBehavior mBottomSheetBehavior;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,7 +76,14 @@ public  class Index extends AppCompatActivity implements OnMapReadyCallback {
         setTitle("Cửa hàng");
         ActivityCompat.requestPermissions(Index.this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission.ACCESS_COARSE_LOCATION}, 1);
         // ActivityCompat.requestPermissions(Index.this,new String[]{Manifest.permission.,Manifest.permission.ACCESS_COARSE_LOCATION},1);
-        editText7 = findViewById(R.id.edt);
+
+        getSupportActionBar().setDisplayShowCustomEnabled(true);
+        getSupportActionBar().setCustomView(R.layout.toolbar_search);
+        View view =getSupportActionBar().getCustomView();
+        editText7 = view.findViewById(R.id.edt);
+        spinner = view.findViewById(R.id.spinner);
+
+
         myDatabase.Khoitai();
         database = myDatabase.getMyDatabase();
         //ready map
@@ -107,12 +117,6 @@ public  class Index extends AppCompatActivity implements OnMapReadyCallback {
             // TODO: Consider calling
 
             map.setMyLocationEnabled(true);
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
             return;
 
         }  map.getUiSettings().setMyLocationButtonEnabled(true);
@@ -124,31 +128,8 @@ public  class Index extends AppCompatActivity implements OnMapReadyCallback {
         android.location.Location location = service.getLastKnownLocation(provider);
         userLocation = new LatLng(location.getLatitude(), location.getLongitude());
         latitude = location.getLatitude();
-//
         longitude = location.getLongitude();
-////
-//       lastlocation = location;
 
-
-
-//        map.addMarker(new MarkerOptions()
-//                .title("YEN SUSHI & SAKE PUB 1")
-//                .snippet("15A Lê Quý Đôn, P.6, Q.3, HCM\n" +
-//                        "Điện thoại: 028 39 330 167\n")
-//                .position(sushi1));
-//
-//        map.addMarker(new MarkerOptions()
-//                .title("YEN SUSHI & SAKE PUB 2")
-//                .snippet(" 92 Nam Kì Khởi Nghĩa, P. Bến Nghé, Q.1, HCM\n" +
-//                        "Điện thoại: 028 38 218 586\n")
-//                .position(new LatLng(10.7721, 106.701)));
-//
-//        map.addMarker(new MarkerOptions()
-//                .title("YEN SUSHI & SAKE PUB 3")
-//                .snippet(" 185 Nguyễn Đức Cảnh, Q.7, HCM\n" +
-//                        "Điện thoại: 028 54 125 316\n")
-//                .position(new LatLng(10.7214484, 106.7122184)));
-//
         map.addMarker(new MarkerOptions()
                 .title("YEN SUSHI PREMIUM ")
                 .snippet("123 Bà Huyện Thanh Quan, Q.3, HCM\n" +
@@ -158,45 +139,75 @@ public  class Index extends AppCompatActivity implements OnMapReadyCallback {
 //                sushi1, 15));
 
         if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            Toast.makeText(this, "xx", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Lỗi permission", Toast.LENGTH_LONG).show();
             return;
         }
-
-
         map.setOnMyLocationButtonClickListener(new GoogleMap.OnMyLocationButtonClickListener(){
             @Override
             public boolean onMyLocationButtonClick()
             {
-                //Toast.makeText(this,"X",Toast.LENGTH_LONG).show();
-               // onMapReady(map);
-                map.clear();
-                onMapReady(map);
-                AddMakerCustom(null);
-                restaurent(null);
+              UpdateRes();
 
-                for(Location location1:GetNearbyBanksData.arrayList)
-                {
-                    arrayList.add(location1);
-                }
-                arrayAdapter.notifyDataSetChanged();
 
                 return false;
             }
         });
+        final int[] i = {0};
+        map.setOnMyLocationChangeListener(new GoogleMap.OnMyLocationChangeListener() {
+
+            @Override
+            public void onMyLocationChange(android.location.Location location) {
+
+                latitude = location.getLatitude();
+                longitude = location.getLongitude();
+            }
+
+
+        });
 
     }
 
+    private String  getMapsApiDirectionsUrl(LatLng origin,LatLng dest) {
+        // Origin of route
+        String str_origin = "origin="+origin.latitude+","+origin.longitude;
+
+        // Destination of route
+        String str_dest = "destination="+dest.latitude+","+dest.longitude;
+
+
+        // Sensor enabled
+        String sensor = "sensor=false";
+
+        // Building the parameters to the web service
+        String parameters = str_origin+"&"+str_dest+"&"+sensor;
+
+        // Output format
+        String output = "json";
+
+        // Building the url to the web service
+        String url = "https://maps.googleapis.com/maps/api/directions/"+output+"?"+parameters;
+        return url;
+
+    }
+    void UpdateRes()
+    {
+        map.clear();
+
+
+        restaurent(null);
+
+
+    }
     //Add restaurant
     public void AddMakerCustom(View view) {
         Geocoder geoCoder = new Geocoder(Index.this, Locale.getDefault());
         List<Address> addresses = null;
         try {
             addresses = geoCoder.getFromLocationName(editText7.getText() + "", 5);
-            Toast.makeText(Index.this, addresses.size() + "", Toast.LENGTH_SHORT).show();
             if (addresses.size() > 0) {
                 Double lat = (double) (addresses.get(0).getLatitude());
 
-                Toast.makeText(Index.this, addresses.get(0).getLatitude() + "", Toast.LENGTH_SHORT).show();
+
                 Double lon = (double) (addresses.get(0).getLongitude());
 
                 Log.d("lat-long", "" + lat + "......." + lon);
@@ -210,7 +221,7 @@ public  class Index extends AppCompatActivity implements OnMapReadyCallback {
                 map.moveCamera(CameraUpdateFactory.newLatLngZoom(user, 15));
 
                 // Zoom in, animating the camera.
-                map.animateCamera(CameraUpdateFactory.zoomTo(10), 2000, null);
+                map.animateCamera(CameraUpdateFactory.zoomTo(15), 2000, null);
 
             }
         } catch (IOException e) {
@@ -265,7 +276,6 @@ public  class Index extends AppCompatActivity implements OnMapReadyCallback {
 
         googlePlaceUrl.append("&key=" + "AIzaSyAafUK3_rCTM6esCaZKIj7DNTu8ZkQ6QCw");
 
-        Toast.makeText(this, googlePlaceUrl, Toast.LENGTH_SHORT).show();
 
         Log.d("MapsActivity", "url = " + googlePlaceUrl.toString());
 
@@ -274,18 +284,44 @@ public  class Index extends AppCompatActivity implements OnMapReadyCallback {
 
     }
 
-
+    View bottomSheet;
     Button button;
 
     void Addcontrol() {
 
+         bottomSheet = findViewById( R.id.bottom_sheet );
+        mBottomSheetBehavior = BottomSheetBehavior.from(bottomSheet);
+
+
+
+//        mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+        mBottomSheetBehavior.setPeekHeight(80);
+        TranslateAnimation animation = new TranslateAnimation(0.0f, 0.0f,
+                200f, 0.0f);          //  new TranslateAnimation(xFrom,xTo, yFrom,yTo)
+        animation.setDuration(2000);  // animation duration
+        animation.setRepeatCount(0);  // animation repeat count
+        animation.setRepeatMode(0);   // repeat animation (left to right, right to left )
+        animation.setFillAfter(true);
+        bottomSheet.startAnimation(animation);
+//        mBottomSheetBehavior.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
+//            @Override
+//            public void onStateChanged(@NonNull View bottomSheet, int newState) {
+//                bottomSheet.animate().translationY(200).setDuration(0).start();
+//            }
+//
+//            @Override
+//            public void onSlide(@NonNull View bottomSheet, float slideOffset) {
+//                bottomSheet.animate().scaleX(1 - slideOffset).scaleY(1 - slideOffset).setDuration(0).start();
+//            }
+//
+//        });
 
         arrayList = new ArrayList<>();
 
         arrayAdapter = new adapterlocation(this, R.layout.index_location, arrayList);
         listView = findViewById(R.id.listview);
         listView.setAdapter(arrayAdapter);
-        spinner = findViewById(R.id.spinner);
+
         distance = new ArrayList<>();
         distance.add("1km");
         distance.add("2km");
@@ -295,42 +331,18 @@ public  class Index extends AppCompatActivity implements OnMapReadyCallback {
     }
 
 
+    int Posi;
     //search
     void AddEvent() {
-        //  myDatabase.db_delete();
-        KeyboardVisibilityEvent.setEventListener(
-                this,
-                new KeyboardVisibilityEventListener() {
-                    @Override
-                    public void onVisibilityChanged(boolean isOpen) {
-                        BottomNavigationView bottomNavigationView=findViewById(R.id.navi);
 
-                        if(isOpen)
-                        {
-                            //listView.setVisibility(View.INVISIBLE);
-                            bottomNavigationView.setVisibility(View.INVISIBLE);
-                        }else {
-                            bottomNavigationView.setVisibility(View.VISIBLE);
-                            //listView.setVisibility(View.VISIBLE);
-                        }
-                    }
-                });
 
-//        Cursor cursor = database.rawQuery("select * from storeon", null);
-//        cursor.moveToFirst();
-//
-//        while (!cursor.isAfterLast()) {
-//            arrayList.add(new Location(cursor.getString(1), cursor.getString(2), cursor.getString(3)));
-//            arrayAdapter.notifyDataSetChanged();
-//            cursor.moveToNext();
-//        }
-//        cursor.close();
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Intent intent = new Intent(Index.this, Info.class);
                 intent.putExtra("object", arrayList.get(i));
-                startActivity(intent);
+                Posi=i;
+                startActivityForResult(intent,123);
             }
         });
 
@@ -364,7 +376,7 @@ public  class Index extends AppCompatActivity implements OnMapReadyCallback {
 
 
     public void restaurent(View view) {
-        Object dataTransfer[] = new Object[2];
+        Object dataTransfer[] = new Object[4];
 
         GetNearbyBanksData getNearbyPlacesData = new GetNearbyBanksData();
 
@@ -378,19 +390,43 @@ public  class Index extends AppCompatActivity implements OnMapReadyCallback {
         dataTransfer[0] = map;
 
         dataTransfer[1] = url;
+        dataTransfer[2]=arrayAdapter;
+        dataTransfer[3]=arrayList;
         Circle circle = map.addCircle(new CircleOptions()
-                .center(userLocation)
+                .center(new LatLng(latitude,longitude))
                 .radius(PROXIMITY_RADIUS)
                 .fillColor(0x550000FF).strokeColor(0x550000FF));
 
 
         getNearbyPlacesData.execute(dataTransfer);
-        map.moveCamera(CameraUpdateFactory.newLatLngZoom(userLocation, 20));
+        map.moveCamera(CameraUpdateFactory.newLatLngZoom(userLocation, 15));
 
         // Zoom in, animating the camera.
         map.animateCamera(CameraUpdateFactory.zoomTo(15), 2000, null);
     }
 
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(requestCode==123 && resultCode== RESULT_OK)
+        {
 
+                for (Polyline polyline : ParserTask.polylines) {
+                    polyline.remove();
+                }
+                double lati=arrayList.get(Posi).getLati();
+                double longti=arrayList.get(Posi).getLongti();
+                LatLng latLng=new LatLng(lati,longti);
+                String url = getMapsApiDirectionsUrl(Index.userLocation, latLng);
+                ReadTask downloadTask = new ReadTask();
+                // Start downloading json data from Google Directions API
+                downloadTask.execute(url);
+                Toast.makeText(this,"Tìm đường thành công",Toast.LENGTH_LONG).show();
+                mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+
+
+        }
+        else Toast.makeText(this,"What??",Toast.LENGTH_LONG).show();
+        super.onActivityResult(requestCode, resultCode, data);
+    }
 }
