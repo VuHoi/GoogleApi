@@ -104,7 +104,9 @@ public class login extends AppCompatActivity implements
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(tendangnhap.getText().equals("x") && matkhau.getText().equals("x"))
+             String a=   tendangnhap.getText().toString().trim(); String b= matkhau.getText().toString().trim();
+
+                if(a.equals("admin")&&b.equals("123456"))
                 {
                     Intent intent=new Intent(login.this,detail_user.class);
                     startActivity(intent);
