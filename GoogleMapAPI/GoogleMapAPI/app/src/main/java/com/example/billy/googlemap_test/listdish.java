@@ -1,6 +1,5 @@
 package com.example.billy.googlemap_test;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
@@ -61,12 +60,12 @@ public class listdish extends AppCompatActivity {
 
         switch (cate)
         {
-            case "Zensai": listmonan.add(new dish(R.drawable.zensai_ika_shiokara,"Ika shiokara"));
+            case "Zensai": listmonan.add(new dish(R.drawable.zensai_demo,"Ika shiokara"));
                 listmonan.add(new dish(R.drawable.zensai_ikura_hiya_yakko,"Ikura hiya yakko"));
                 break;
 
             case "Chawanmushi": listmonan.add(new dish(R.drawable.chawa_ikura,"Ikura Chawanmushi"));
-                listmonan.add(new dish(R.drawable.chawa_eihire,"Eihire"));
+                listmonan.add(new dish(R.drawable.chawa_demo,"Eihire"));
                 break;
 
         }
