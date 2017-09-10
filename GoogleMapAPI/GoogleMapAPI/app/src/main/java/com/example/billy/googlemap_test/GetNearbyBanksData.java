@@ -107,15 +107,17 @@ public class GetNearbyBanksData extends AsyncTask<Object, String, String> {
             String photo_ref=googlePlace.get("photo_reference");
 
 
-            locations.add(new Location(placeName,vicinity,"123",photo_ref));
-            arrayAdapter.notifyDataSetChanged();
+
 
             double lat = Double.parseDouble(googlePlace.get("lat"));
 
             double lng = Double.parseDouble(googlePlace.get("lng"));
 
-
             LatLng latLng = new LatLng(lat, lng);
+
+
+            locations.add(new Location(placeName,vicinity,"123",photo_ref,lat,lng));
+            arrayAdapter.notifyDataSetChanged();
 
             markerOptions.position(latLng);
 
