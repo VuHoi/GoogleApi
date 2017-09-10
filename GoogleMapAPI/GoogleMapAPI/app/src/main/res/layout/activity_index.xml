@@ -57,7 +57,7 @@
             android:gravity="center"
             android:paddingLeft="5dp"
             android:text="Danh sách nhà hàng"
-            android:background="#dadada"
+            android:background="#FFD54F"
             android:textSize="20sp"/>
         <ListView
             android:id="@+id/listview"
