@@ -57,14 +57,14 @@ import adapter.adapterlocation;
 import model.Location;
 import sqlite.Databasehelper;
 
-public  class Index extends AppCompatActivity implements OnMapReadyCallback ,GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener,LocationListener {
-    public  static  GoogleMap map;
+public class Index extends AppCompatActivity implements OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener {
+    public static GoogleMap map;
     ListView listView;
     ArrayList<Location> arrayList;
     TextView editText7;
     double latitude, longitude;
     adapterlocation arrayAdapter;
-    public  static int PROXIMITY_RADIUS = 1000;
+    public static int PROXIMITY_RADIUS = 1000;
     Databasehelper myDatabase = new Databasehelper(this);
     SQLiteDatabase database;
     public static LatLng userLocation;
@@ -87,7 +87,7 @@ public  class Index extends AppCompatActivity implements OnMapReadyCallback ,Goo
 
         getSupportActionBar().setDisplayShowCustomEnabled(true);
         getSupportActionBar().setCustomView(R.layout.toolbar_search);
-        View view =getSupportActionBar().getCustomView();
+        View view = getSupportActionBar().getCustomView();
         editText7 = view.findViewById(R.id.edt);
         spinner = view.findViewById(R.id.spinner);
 
@@ -101,7 +101,6 @@ public  class Index extends AppCompatActivity implements OnMapReadyCallback ,Goo
             checkLocationPermission();
 
 
-
         }
         //ready map
         MapFragment mapFragment = (MapFragment) getFragmentManager()
@@ -112,45 +111,40 @@ public  class Index extends AppCompatActivity implements OnMapReadyCallback ,Goo
         AddEvent();
 
 
-
     }
+
     public boolean checkLocationPermission()
 
     {
 
-        if(ContextCompat.checkSelfPermission(this,Manifest.permission.ACCESS_FINE_LOCATION)  != PackageManager.PERMISSION_GRANTED )
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED)
 
         {
 
 
-
-            if (ActivityCompat.shouldShowRequestPermissionRationale(this,Manifest.permission.ACCESS_FINE_LOCATION))
-
-            {
-
-                ActivityCompat.requestPermissions(this,new String[] {Manifest.permission.ACCESS_FINE_LOCATION },REQUEST_LOCATION_CODE);
-
-            }
-
-            else
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_FINE_LOCATION))
 
             {
 
-                ActivityCompat.requestPermissions(this,new String[] {Manifest.permission.ACCESS_FINE_LOCATION },REQUEST_LOCATION_CODE);
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_LOCATION_CODE);
+
+            } else
+
+            {
+
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_LOCATION_CODE);
 
             }
 
             return false;
 
 
-
-        }
-
-        else
+        } else
 
             return true;
 
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_resource, menu);
@@ -172,7 +166,8 @@ public  class Index extends AppCompatActivity implements OnMapReadyCallback ,Goo
             map.setMyLocationEnabled(true);
             return;
 
-        }  map.getUiSettings().setMyLocationButtonEnabled(true);
+        }
+        map.getUiSettings().setMyLocationButtonEnabled(true);
         map.setMyLocationEnabled(true);
 
         LocationManager service = (LocationManager) getSystemService(LOCATION_SERVICE);
@@ -195,11 +190,11 @@ public  class Index extends AppCompatActivity implements OnMapReadyCallback ,Goo
             Toast.makeText(this, "Lỗi permission", Toast.LENGTH_LONG).show();
             return;
         }
-        map.setOnMyLocationButtonClickListener(new GoogleMap.OnMyLocationButtonClickListener(){
+
+        map.setOnMyLocationButtonClickListener(new GoogleMap.OnMyLocationButtonClickListener() {
             @Override
-            public boolean onMyLocationButtonClick()
-            {
-              UpdateRes();
+            public boolean onMyLocationButtonClick() {
+                UpdateRes();
 
 
                 return false;
@@ -213,6 +208,9 @@ public  class Index extends AppCompatActivity implements OnMapReadyCallback ,Goo
 
                 latitude = location.getLatitude();
                 longitude = location.getLongitude();
+                Marker hamburg = map.addMarker(new MarkerOptions()
+                        .position(new LatLng(latitude, longitude))
+                        .title("my location"));
             }
 
 
@@ -220,30 +218,30 @@ public  class Index extends AppCompatActivity implements OnMapReadyCallback ,Goo
 
     }
 
-    private String  getMapsApiDirectionsUrl(LatLng origin,LatLng dest) {
+    private String getMapsApiDirectionsUrl(LatLng origin, LatLng dest) {
         // Origin of route
-        String str_origin = "origin="+origin.latitude+","+origin.longitude;
+        String str_origin = "origin=" + origin.latitude + "," + origin.longitude;
 
         // Destination of route
-        String str_dest = "destination="+dest.latitude+","+dest.longitude;
+        String str_dest = "destination=" + dest.latitude + "," + dest.longitude;
 
 
         // Sensor enabled
         String sensor = "sensor=false";
 
         // Building the parameters to the web service
-        String parameters = str_origin+"&"+str_dest+"&"+sensor;
+        String parameters = str_origin + "&" + str_dest + "&" + sensor;
 
         // Output format
         String output = "json";
 
         // Building the url to the web service
-        String url = "https://maps.googleapis.com/maps/api/directions/"+output+"?"+parameters;
+        String url = "https://maps.googleapis.com/maps/api/directions/" + output + "?" + parameters;
         return url;
 
     }
-    void UpdateRes()
-    {
+
+    void UpdateRes() {
         map.clear();
 
 
@@ -251,6 +249,7 @@ public  class Index extends AppCompatActivity implements OnMapReadyCallback ,Goo
 
 
     }
+
     //Add restaurant
     public void AddMakerCustom(View view) {
         Geocoder geoCoder = new Geocoder(Index.this, Locale.getDefault());
@@ -288,21 +287,21 @@ public  class Index extends AppCompatActivity implements OnMapReadyCallback ,Goo
 
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
 
-        switch(requestCode)
+        switch (requestCode)
 
         {
 
             case REQUEST_LOCATION_CODE:
 
-                if(grantResults.length >0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)
 
                 {
 
-                    if(ContextCompat.checkSelfPermission(this,Manifest.permission.ACCESS_FINE_LOCATION) !=  PackageManager.PERMISSION_GRANTED)
+                    if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED)
 
                     {
 
-                        if(client == null)
+                        if (client == null)
 
                         {
 
@@ -314,13 +313,11 @@ public  class Index extends AppCompatActivity implements OnMapReadyCallback ,Goo
 
                     }
 
-                }
-
-                else
+                } else
 
                 {
 
-                    Toast.makeText(this,"Permission Denied" , Toast.LENGTH_LONG).show();
+                    Toast.makeText(this, "Permission Denied", Toast.LENGTH_LONG).show();
 
                 }
 
@@ -358,9 +355,8 @@ public  class Index extends AppCompatActivity implements OnMapReadyCallback ,Goo
 
     void Addcontrol() {
 
-         bottomSheet = findViewById( R.id.bottom_sheet );
+        bottomSheet = findViewById(R.id.bottom_sheet);
         mBottomSheetBehavior = BottomSheetBehavior.from(bottomSheet);
-
 
 
 //        mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
@@ -401,6 +397,7 @@ public  class Index extends AppCompatActivity implements OnMapReadyCallback ,Goo
 
 
     int Posi;
+
     //search
     void AddEvent() {
 
@@ -410,11 +407,10 @@ public  class Index extends AppCompatActivity implements OnMapReadyCallback ,Goo
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Intent intent = new Intent(Index.this, Info.class);
                 intent.putExtra("object", arrayList.get(i));
-                Posi=i;
-                startActivityForResult(intent,123);
+                Posi = i;
+                startActivityForResult(intent, 123);
             }
         });
-
 
 
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -443,6 +439,12 @@ public  class Index extends AppCompatActivity implements OnMapReadyCallback ,Goo
         });
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if (client!= null && !client.isConnected())
+            client.connect();
+    }
 
     public void restaurent(View view) {
         Object dataTransfer[] = new Object[4];
@@ -459,16 +461,16 @@ public  class Index extends AppCompatActivity implements OnMapReadyCallback ,Goo
         dataTransfer[0] = map;
 
         dataTransfer[1] = url;
-        dataTransfer[2]=arrayAdapter;
-        dataTransfer[3]=arrayList;
+        dataTransfer[2] = arrayAdapter;
+        dataTransfer[3] = arrayList;
         Circle circle = map.addCircle(new CircleOptions()
-                .center(new LatLng(latitude,longitude))
+                .center(new LatLng(latitude, longitude))
                 .radius(PROXIMITY_RADIUS)
                 .fillColor(0x550000FF).strokeColor(0x550000FF));
 
 
         getNearbyPlacesData.execute(dataTransfer);
-        map.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(latitude,longitude), 15));
+        map.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(latitude, longitude), 15));
 
         // Zoom in, animating the camera.
         map.animateCamera(CameraUpdateFactory.zoomTo(15), 2000, null);
@@ -477,25 +479,23 @@ public  class Index extends AppCompatActivity implements OnMapReadyCallback ,Goo
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(requestCode==123 && resultCode== RESULT_OK)
-        {
+        if (requestCode == 123 && resultCode == RESULT_OK) {
 
-                for (Polyline polyline : ParserTask.polylines) {
-                    polyline.remove();
-                }
-                double lati=arrayList.get(Posi).getLati();
-                double longti=arrayList.get(Posi).getLongti();
-                LatLng latLng=new LatLng(lati,longti);
-                String url = getMapsApiDirectionsUrl(Index.userLocation, latLng);
-                ReadTask downloadTask = new ReadTask();
-                // Start downloading json data from Google Directions API
-                downloadTask.execute(url);
-                Toast.makeText(this,"Tìm đường thành công",Toast.LENGTH_LONG).show();
-                mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+            for (Polyline polyline : ParserTask.polylines) {
+                polyline.remove();
+            }
+            double lati = arrayList.get(Posi).getLati();
+            double longti = arrayList.get(Posi).getLongti();
+            LatLng latLng = new LatLng(lati, longti);
+            String url = getMapsApiDirectionsUrl(Index.userLocation, latLng);
+            ReadTask downloadTask = new ReadTask();
+            // Start downloading json data from Google Directions API
+            downloadTask.execute(url);
+            Toast.makeText(this, "Tìm đường thành công", Toast.LENGTH_LONG).show();
+            mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
 
 
-        }
-        else Toast.makeText(this,"What??",Toast.LENGTH_LONG).show();
+        } else Toast.makeText(this, "What??", Toast.LENGTH_LONG).show();
         super.onActivityResult(requestCode, resultCode, data);
     }
 
@@ -515,8 +515,8 @@ public  class Index extends AppCompatActivity implements OnMapReadyCallback ,Goo
         client.connect();
 
 
-
     }
+
     @Override
     public void onLocationChanged(android.location.Location location) {
 
@@ -527,19 +527,18 @@ public  class Index extends AppCompatActivity implements OnMapReadyCallback ,Goo
 
         lastlocation = location;
 
-        if(currentLocationmMarker != null)
+        if (currentLocationmMarker != null)
 
         {
 
             currentLocationmMarker.remove();
 
 
-
         }
 
-        Log.d("lat = ",""+latitude);
+        Log.d("lat = ", "" + latitude);
 
-        LatLng latLng = new LatLng(location.getLatitude() , location.getLongitude());
+        LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
 
         MarkerOptions markerOptions = new MarkerOptions();
 
@@ -556,8 +555,7 @@ public  class Index extends AppCompatActivity implements OnMapReadyCallback ,Goo
         map.animateCamera(CameraUpdateFactory.zoomBy(10));
 
 
-
-        if(client != null)
+        if (client != null)
 
         {
 
@@ -593,6 +591,31 @@ public  class Index extends AppCompatActivity implements OnMapReadyCallback ,Goo
 
         locationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
 
+
+
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
+
+        android.location.Location mLastLocation = LocationServices.FusedLocationApi.getLastLocation(client);
+        if (mLastLocation != null) {
+            //place marker at current position
+            //mGoogleMap.clear();
+            latitude=mLastLocation.getLatitude();longitude= mLastLocation.getLongitude();
+            MarkerOptions markerOptions = new MarkerOptions();
+            markerOptions.position(new LatLng(latitude,longitude));
+            markerOptions.title("Current Position");
+            markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA));
+            map.addMarker(markerOptions);
+            Toast.makeText(this, latitude+""+longitude+"", Toast.LENGTH_SHORT).show();
+        }
 
 
 
