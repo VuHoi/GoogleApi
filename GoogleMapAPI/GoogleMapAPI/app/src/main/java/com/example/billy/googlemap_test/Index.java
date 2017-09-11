@@ -21,6 +21,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.RotateAnimation;
 import android.view.animation.TranslateAnimation;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -62,7 +63,7 @@ public class Index extends AppCompatActivity implements OnMapReadyCallback, Goog
     ListView listView;
     ArrayList<Location> arrayList;
     TextView editText7;
-    double latitude, longitude;
+    double latitude=0, longitude=0;
     adapterlocation arrayAdapter;
     public static int PROXIMITY_RADIUS = 1000;
     Databasehelper myDatabase = new Databasehelper(this);
@@ -177,7 +178,7 @@ public class Index extends AppCompatActivity implements OnMapReadyCallback, Goog
 //        userLocation = new LatLng(location.getLatitude(), location.getLongitude());
 //        latitude = location.getLatitude();
 //        longitude = location.getLongitude();
-
+        //userLocation=new LatLng(latitude,longitude);
         map.addMarker(new MarkerOptions()
                 .title("YEN SUSHI PREMIUM ")
                 .snippet("123 Bà Huyện Thanh Quan, Q.3, HCM\n" +
@@ -195,8 +196,6 @@ public class Index extends AppCompatActivity implements OnMapReadyCallback, Goog
             @Override
             public boolean onMyLocationButtonClick() {
                 UpdateRes();
-
-
                 return false;
             }
         });
@@ -215,6 +214,7 @@ public class Index extends AppCompatActivity implements OnMapReadyCallback, Goog
 
 
         });
+        //bulidGoogleApiClient();
 
     }
 
@@ -242,11 +242,11 @@ public class Index extends AppCompatActivity implements OnMapReadyCallback, Goog
     }
 
     void UpdateRes() {
-        map.clear();
+
 
 
         restaurent(null);
-
+        userLocation=new LatLng(latitude,longitude);
 
     }
 
@@ -350,13 +350,14 @@ public class Index extends AppCompatActivity implements OnMapReadyCallback, Goog
 
     }
 
-    View bottomSheet;
+    View bottomSheet,floatting;
     Button button;
 
     void Addcontrol() {
 
-        bottomSheet = findViewById(R.id.bottom_sheet);
+        bottomSheet = findViewById( R.id.bottom_sheet );
         mBottomSheetBehavior = BottomSheetBehavior.from(bottomSheet);
+        floatting=findViewById(R.id.floatting);
 
 
 //        mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
@@ -368,19 +369,59 @@ public class Index extends AppCompatActivity implements OnMapReadyCallback, Goog
         animation.setRepeatMode(0);   // repeat animation (left to right, right to left )
         animation.setFillAfter(true);
         bottomSheet.startAnimation(animation);
-//        mBottomSheetBehavior.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
-//            @Override
-//            public void onStateChanged(@NonNull View bottomSheet, int newState) {
-//                bottomSheet.animate().translationY(200).setDuration(0).start();
-//            }
-//
-//            @Override
-//            public void onSlide(@NonNull View bottomSheet, float slideOffset) {
-//                bottomSheet.animate().scaleX(1 - slideOffset).scaleY(1 - slideOffset).setDuration(0).start();
-//            }
-//
-//        });
+        floatting.startAnimation(animation);
 
+
+        floatting.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if (mBottomSheetBehavior.getState()==BottomSheetBehavior.STATE_COLLAPSED)
+                {
+                    mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+                }
+                else
+                    mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+            }
+
+
+        });
+        mBottomSheetBehavior.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
+            float slide;
+
+            @Override
+            public void onStateChanged(@NonNull View bottomSheet, int newState) {
+
+
+                if (newState==BottomSheetBehavior.STATE_EXPANDED) {
+
+                    RotateAnimation animation1=new RotateAnimation(0,45,50,50);
+                    animation1.setDuration(300);  // animation duration
+                    animation1.setRepeatCount(0);  // animation repeat count
+                    animation1.setRepeatMode(0);   // repeat animation (left to right, right to left )
+                    animation1.setFillAfter(true);
+                    floatting.startAnimation(animation1);
+                }
+                if (newState == BottomSheetBehavior.STATE_COLLAPSED)
+                {
+                    RotateAnimation animation1=new RotateAnimation(45,90,50,50);
+                    animation1.setDuration(300);  // animation duration
+                    animation1.setRepeatCount(0);  // animation repeat count
+                    animation1.setRepeatMode(0);   // repeat animation (left to right, right to left )
+                    animation1.setFillAfter(true);
+                    floatting.startAnimation(animation1);
+                }
+
+                // bottomSheet.animate().translationY(200).setDuration(0).start();
+            }
+
+            @Override
+            public void onSlide(@NonNull View bottomSheet, float slideOffset) {
+                slide=slideOffset;
+                //bottomSheet.animate().scaleX(1 - slideOffset).scaleY(1 - slideOffset).setDuration(0).start();
+            }
+
+        });
         arrayList = new ArrayList<>();
 
         arrayAdapter = new adapterlocation(this, R.layout.index_location, arrayList);
@@ -525,8 +566,10 @@ public class Index extends AppCompatActivity implements OnMapReadyCallback, Goog
 
         longitude = location.getLongitude();
 
-        lastlocation = location;
 
+
+        lastlocation = location;
+        userLocation=new LatLng(latitude,longitude);
         if (currentLocationmMarker != null)
 
         {
@@ -608,12 +651,14 @@ public class Index extends AppCompatActivity implements OnMapReadyCallback, Goog
         if (mLastLocation != null) {
             //place marker at current position
             //mGoogleMap.clear();
-            latitude=mLastLocation.getLatitude();longitude= mLastLocation.getLongitude();
+            latitude=mLastLocation.getLatitude();
+            longitude= mLastLocation.getLongitude();
             MarkerOptions markerOptions = new MarkerOptions();
             markerOptions.position(new LatLng(latitude,longitude));
             markerOptions.title("Current Position");
             markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA));
             map.addMarker(markerOptions);
+            userLocation=new LatLng(latitude,longitude);
             Toast.makeText(this, latitude+""+longitude+"", Toast.LENGTH_SHORT).show();
         }
 
