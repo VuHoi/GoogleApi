@@ -63,7 +63,7 @@ public class Index extends AppCompatActivity implements OnMapReadyCallback, Goog
     ListView listView;
     ArrayList<Location> arrayList;
     TextView editText7;
-    double latitude, longitude;
+    double latitude=0, longitude=0;
     adapterlocation arrayAdapter;
     public static int PROXIMITY_RADIUS = 1000;
     Databasehelper myDatabase = new Databasehelper(this);
@@ -178,7 +178,7 @@ public class Index extends AppCompatActivity implements OnMapReadyCallback, Goog
 //        userLocation = new LatLng(location.getLatitude(), location.getLongitude());
 //        latitude = location.getLatitude();
 //        longitude = location.getLongitude();
-
+        //userLocation=new LatLng(latitude,longitude);
         map.addMarker(new MarkerOptions()
                 .title("YEN SUSHI PREMIUM ")
                 .snippet("123 Bà Huyện Thanh Quan, Q.3, HCM\n" +
@@ -196,8 +196,6 @@ public class Index extends AppCompatActivity implements OnMapReadyCallback, Goog
             @Override
             public boolean onMyLocationButtonClick() {
                 UpdateRes();
-
-
                 return false;
             }
         });
@@ -216,6 +214,7 @@ public class Index extends AppCompatActivity implements OnMapReadyCallback, Goog
 
 
         });
+        //bulidGoogleApiClient();
 
     }
 
@@ -243,11 +242,11 @@ public class Index extends AppCompatActivity implements OnMapReadyCallback, Goog
     }
 
     void UpdateRes() {
-        map.clear();
+
 
 
         restaurent(null);
-
+        userLocation=new LatLng(latitude,longitude);
 
     }
 
@@ -567,8 +566,10 @@ public class Index extends AppCompatActivity implements OnMapReadyCallback, Goog
 
         longitude = location.getLongitude();
 
-        lastlocation = location;
 
+
+        lastlocation = location;
+        userLocation=new LatLng(latitude,longitude);
         if (currentLocationmMarker != null)
 
         {
@@ -650,12 +651,14 @@ public class Index extends AppCompatActivity implements OnMapReadyCallback, Goog
         if (mLastLocation != null) {
             //place marker at current position
             //mGoogleMap.clear();
-            latitude=mLastLocation.getLatitude();longitude= mLastLocation.getLongitude();
+            latitude=mLastLocation.getLatitude();
+            longitude= mLastLocation.getLongitude();
             MarkerOptions markerOptions = new MarkerOptions();
             markerOptions.position(new LatLng(latitude,longitude));
             markerOptions.title("Current Position");
             markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA));
             map.addMarker(markerOptions);
+            userLocation=new LatLng(latitude,longitude);
             Toast.makeText(this, latitude+""+longitude+"", Toast.LENGTH_SHORT).show();
         }
 
