@@ -139,7 +139,9 @@ public class GetNearbyBanksData extends AsyncTask<Object, String, String> {
                     polyline.remove();
                 }
 
+
                 String url = getMapsApiDirectionsUrl(Index.userLocation, marker.getPosition());
+                //String url = getMapsApiDirectionsUrl(new LatLng(10.794708,106.668081), marker.getPosition());
                 ReadTask downloadTask = new ReadTask();
                 // Start downloading json data from Google Directions API
                 downloadTask.execute(url);

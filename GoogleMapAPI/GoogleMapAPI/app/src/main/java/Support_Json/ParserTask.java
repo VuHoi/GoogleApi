@@ -2,6 +2,7 @@ package Support_Json;
 
 import android.graphics.Color;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import com.example.billy.googlemap_test.Index;
 import com.google.android.gms.maps.model.LatLng;
@@ -45,7 +46,7 @@ public class ParserTask extends AsyncTask<String,Integer, List<List<HashMap<Stri
     protected void onPostExecute(List<List<HashMap<String, String>>> routes) {
         ArrayList<LatLng> points = null;
         PolylineOptions polyLineOptions = null;
-
+        Log.d("xx",routes.size()+"");
         // traversing through routes
         for (int i = 0; i < routes.size(); i++) {
             points = new ArrayList<LatLng>();
