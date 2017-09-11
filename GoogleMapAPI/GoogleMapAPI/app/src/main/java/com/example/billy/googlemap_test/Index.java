@@ -7,9 +7,12 @@ import android.database.sqlite.SQLiteDatabase;
 import android.location.Address;
 import android.location.Criteria;
 import android.location.Geocoder;
+import android.location.LocationListener;
 import android.location.LocationManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -27,10 +30,15 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.Circle;
 import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
@@ -49,7 +57,7 @@ import adapter.adapterlocation;
 import model.Location;
 import sqlite.Databasehelper;
 
-public  class Index extends AppCompatActivity implements OnMapReadyCallback {
+public  class Index extends AppCompatActivity implements OnMapReadyCallback ,GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener,LocationListener {
     public  static  GoogleMap map;
     ListView listView;
     ArrayList<Location> arrayList;
@@ -60,7 +68,7 @@ public  class Index extends AppCompatActivity implements OnMapReadyCallback {
     Databasehelper myDatabase = new Databasehelper(this);
     SQLiteDatabase database;
     public static LatLng userLocation;
-
+    public static final int REQUEST_LOCATION_CODE = 99;
 
     ArrayList<String> distance;
     ArrayAdapter<String> arrayAdapterdis;
@@ -86,6 +94,15 @@ public  class Index extends AppCompatActivity implements OnMapReadyCallback {
 
         myDatabase.Khoitai();
         database = myDatabase.getMyDatabase();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+
+        {
+
+            checkLocationPermission();
+
+
+
+        }
         //ready map
         MapFragment mapFragment = (MapFragment) getFragmentManager()
                 .findFragmentById(R.id.myMap);
@@ -97,7 +114,43 @@ public  class Index extends AppCompatActivity implements OnMapReadyCallback {
 
 
     }
+    public boolean checkLocationPermission()
 
+    {
+
+        if(ContextCompat.checkSelfPermission(this,Manifest.permission.ACCESS_FINE_LOCATION)  != PackageManager.PERMISSION_GRANTED )
+
+        {
+
+
+
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this,Manifest.permission.ACCESS_FINE_LOCATION))
+
+            {
+
+                ActivityCompat.requestPermissions(this,new String[] {Manifest.permission.ACCESS_FINE_LOCATION },REQUEST_LOCATION_CODE);
+
+            }
+
+            else
+
+            {
+
+                ActivityCompat.requestPermissions(this,new String[] {Manifest.permission.ACCESS_FINE_LOCATION },REQUEST_LOCATION_CODE);
+
+            }
+
+            return false;
+
+
+
+        }
+
+        else
+
+            return true;
+
+    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_resource, menu);
@@ -124,11 +177,11 @@ public  class Index extends AppCompatActivity implements OnMapReadyCallback {
 
         LocationManager service = (LocationManager) getSystemService(LOCATION_SERVICE);
         Criteria criteria = new Criteria();
-        String provider = service.getBestProvider(criteria, false);
-        android.location.Location location = service.getLastKnownLocation(provider);
-        userLocation = new LatLng(location.getLatitude(), location.getLongitude());
-        latitude = location.getLatitude();
-        longitude = location.getLongitude();
+//        String provider = service.getBestProvider(criteria, false);
+//        android.location.Location location = service.getLastKnownLocation(provider);
+//        userLocation = new LatLng(location.getLatitude(), location.getLongitude());
+//        latitude = location.getLatitude();
+//        longitude = location.getLongitude();
 
         map.addMarker(new MarkerOptions()
                 .title("YEN SUSHI PREMIUM ")
@@ -235,27 +288,43 @@ public  class Index extends AppCompatActivity implements OnMapReadyCallback {
 
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
 
-
-        if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)
-
-        {
-
-            if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED)
-
-            {
-
-
-                map.setMyLocationEnabled(true);
-            }
-
-        } else
+        switch(requestCode)
 
         {
 
-            Toast.makeText(this, "Permission Denied", Toast.LENGTH_LONG).show();
+            case REQUEST_LOCATION_CODE:
+
+                if(grantResults.length >0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)
+
+                {
+
+                    if(ContextCompat.checkSelfPermission(this,Manifest.permission.ACCESS_FINE_LOCATION) !=  PackageManager.PERMISSION_GRANTED)
+
+                    {
+
+                        if(client == null)
+
+                        {
+
+                            bulidGoogleApiClient();
+
+                        }
+
+                        map.setMyLocationEnabled(true);
+
+                    }
+
+                }
+
+                else
+
+                {
+
+                    Toast.makeText(this,"Permission Denied" , Toast.LENGTH_LONG).show();
+
+                }
 
         }
-
 
     }
 
@@ -399,7 +468,7 @@ public  class Index extends AppCompatActivity implements OnMapReadyCallback {
 
 
         getNearbyPlacesData.execute(dataTransfer);
-        map.moveCamera(CameraUpdateFactory.newLatLngZoom(userLocation, 15));
+        map.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(latitude,longitude), 15));
 
         // Zoom in, animating the camera.
         map.animateCamera(CameraUpdateFactory.zoomTo(15), 2000, null);
@@ -428,5 +497,122 @@ public  class Index extends AppCompatActivity implements OnMapReadyCallback {
         }
         else Toast.makeText(this,"What??",Toast.LENGTH_LONG).show();
         super.onActivityResult(requestCode, resultCode, data);
+    }
+
+
+    private GoogleApiClient client;
+
+    private LocationRequest locationRequest;
+
+    private android.location.Location lastlocation;
+
+    private Marker currentLocationmMarker;
+
+    protected synchronized void bulidGoogleApiClient() {
+
+        client = new GoogleApiClient.Builder(this).addConnectionCallbacks(this).addOnConnectionFailedListener(this).addApi(LocationServices.API).build();
+
+        client.connect();
+
+
+
+    }
+    @Override
+    public void onLocationChanged(android.location.Location location) {
+
+
+        latitude = location.getLatitude();
+
+        longitude = location.getLongitude();
+
+        lastlocation = location;
+
+        if(currentLocationmMarker != null)
+
+        {
+
+            currentLocationmMarker.remove();
+
+
+
+        }
+
+        Log.d("lat = ",""+latitude);
+
+        LatLng latLng = new LatLng(location.getLatitude() , location.getLongitude());
+
+        MarkerOptions markerOptions = new MarkerOptions();
+
+        markerOptions.position(latLng);
+
+        markerOptions.title("Current Location");
+
+        markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
+
+        currentLocationmMarker = map.addMarker(markerOptions);
+
+        map.moveCamera(CameraUpdateFactory.newLatLng(latLng));
+
+        map.animateCamera(CameraUpdateFactory.zoomBy(10));
+
+
+
+        if(client != null)
+
+        {
+
+            LocationServices.FusedLocationApi.removeLocationUpdates(client, (com.google.android.gms.location.LocationListener) this);
+
+        }
+    }
+
+    @Override
+    public void onStatusChanged(String s, int i, Bundle bundle) {
+
+    }
+
+    @Override
+    public void onProviderEnabled(String s) {
+
+    }
+
+    @Override
+    public void onProviderDisabled(String s) {
+
+    }
+
+    @Override
+    public void onConnected(@Nullable Bundle bundle) {
+
+
+        locationRequest = new LocationRequest();
+
+        locationRequest.setInterval(100);
+
+        locationRequest.setFastestInterval(1000);
+
+        locationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
+
+
+
+
+
+        if(ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION ) == PackageManager.PERMISSION_GRANTED)
+
+        {
+
+            LocationServices.FusedLocationApi.requestLocationUpdates(client, locationRequest, (com.google.android.gms.location.LocationListener) this);
+
+        }
+    }
+
+    @Override
+    public void onConnectionSuspended(int i) {
+
+    }
+
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+
     }
 }
