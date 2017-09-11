@@ -5,12 +5,12 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.sqlite.SQLiteDatabase;
 import android.location.Address;
-import android.location.Criteria;
 import android.location.Geocoder;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomSheetBehavior;
@@ -63,13 +63,16 @@ public class Index extends AppCompatActivity implements OnMapReadyCallback, Goog
     ListView listView;
     ArrayList<Location> arrayList;
     TextView editText7;
-    double latitude=0, longitude=0;
+    double latitude = 0, longitude = 0;
     adapterlocation arrayAdapter;
     public static int PROXIMITY_RADIUS = 1000;
     Databasehelper myDatabase = new Databasehelper(this);
     SQLiteDatabase database;
     public static LatLng userLocation;
     public static final int REQUEST_LOCATION_CODE = 99;
+    private LocationManager locationManager;
+    boolean isGPSEnabled =false;
+    boolean isNetworkEnabled =false;
 
     ArrayList<String> distance;
     ArrayAdapter<String> arrayAdapterdis;
@@ -103,6 +106,8 @@ public class Index extends AppCompatActivity implements OnMapReadyCallback, Goog
 
 
         }
+
+
         //ready map
         MapFragment mapFragment = (MapFragment) getFragmentManager()
                 .findFragmentById(R.id.myMap);
@@ -114,6 +119,44 @@ public class Index extends AppCompatActivity implements OnMapReadyCallback, Goog
 
     }
 
+    public android.location.Location getLocation(){
+        android.location.Location location=null;
+        try{
+
+            locationManager = (LocationManager) getApplication().getSystemService(LOCATION_SERVICE);
+            isGPSEnabled = locationManager.isProviderEnabled(locationManager.GPS_PROVIDER);
+            isNetworkEnabled=locationManager.isProviderEnabled(locationManager.NETWORK_PROVIDER);
+
+            if(ContextCompat.checkSelfPermission(getApplication(), android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
+                    || ContextCompat.checkSelfPermission(getApplication(), android.Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED ){
+
+                if(isGPSEnabled){
+                    if(location==null){
+                        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 10000,10, (LocationListener) this);
+                        if(locationManager!=null){
+                            location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+                        }
+                    }
+                }
+                // if lcoation is not found from GPS than it will found from network //
+                if(location==null){
+                    if(isNetworkEnabled){
+
+                        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 10000,10,this);
+                        if(locationManager!=null){
+                            location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+                        }
+
+                    }
+                }
+
+            }
+
+        }catch(Exception ex){
+
+        }
+        return  location;
+    }
     public boolean checkLocationPermission()
 
     {
@@ -170,15 +213,18 @@ public class Index extends AppCompatActivity implements OnMapReadyCallback, Goog
         }
         map.getUiSettings().setMyLocationButtonEnabled(true);
         map.setMyLocationEnabled(true);
+      getLocation();
+      latitude=getLocation().getLatitude();
+      longitude=getLocation().getLongitude();
 
-        LocationManager service = (LocationManager) getSystemService(LOCATION_SERVICE);
-        Criteria criteria = new Criteria();
+//        LocationManager service = (LocationManager) getSystemService(LOCATION_SERVICE);
+//        Criteria criteria = new Criteria();
 //        String provider = service.getBestProvider(criteria, false);
 //        android.location.Location location = service.getLastKnownLocation(provider);
 //        userLocation = new LatLng(location.getLatitude(), location.getLongitude());
 //        latitude = location.getLatitude();
 //        longitude = location.getLongitude();
-        //userLocation=new LatLng(latitude,longitude);
+        userLocation=new LatLng(latitude,longitude);
         map.addMarker(new MarkerOptions()
                 .title("YEN SUSHI PREMIUM ")
                 .snippet("123 Bà Huyện Thanh Quan, Q.3, HCM\n" +
@@ -191,10 +237,13 @@ public class Index extends AppCompatActivity implements OnMapReadyCallback, Goog
             Toast.makeText(this, "Lỗi permission", Toast.LENGTH_LONG).show();
             return;
         }
-
+        UpdateRes();
         map.setOnMyLocationButtonClickListener(new GoogleMap.OnMyLocationButtonClickListener() {
+
+
             @Override
             public boolean onMyLocationButtonClick() {
+
                 UpdateRes();
                 return false;
             }
@@ -243,7 +292,9 @@ public class Index extends AppCompatActivity implements OnMapReadyCallback, Goog
 
     void UpdateRes() {
 
-
+        Marker hamburg = map.addMarker(new MarkerOptions()
+                .position(new LatLng(latitude, longitude))
+                .title("my location"));
 
         restaurent(null);
         userLocation=new LatLng(latitude,longitude);
@@ -619,7 +670,9 @@ public class Index extends AppCompatActivity implements OnMapReadyCallback, Goog
 
     @Override
     public void onProviderDisabled(String s) {
+        Intent i = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
 
+        startActivity(i);
     }
 
     @Override
