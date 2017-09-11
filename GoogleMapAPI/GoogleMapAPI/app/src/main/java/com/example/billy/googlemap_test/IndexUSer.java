@@ -3,6 +3,7 @@ package com.example.billy.googlemap_test;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
@@ -18,10 +19,12 @@ public class IndexUSer extends AppCompatActivity {
         Button button = findViewById(R.id.button2);
         Button btnlogin = findViewById(R.id.button);
         setTitle("MyLife");
+
         Databasehelper myDatabase = new Databasehelper(this);
         SQLiteDatabase database;
         myDatabase.Khoitai();
         database = myDatabase.getMyDatabase();
+        String provider = Settings.Secure.getString(getContentResolver(), Settings.Secure.LOCATION_PROVIDERS_ALLOWED);
 
 
 
