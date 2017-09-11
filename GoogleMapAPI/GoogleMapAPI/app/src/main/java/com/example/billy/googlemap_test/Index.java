@@ -195,6 +195,7 @@ public  class Index extends AppCompatActivity implements OnMapReadyCallback ,Goo
             Toast.makeText(this, "Lỗi permission", Toast.LENGTH_LONG).show();
             return;
         }
+        UpdateRes();
         map.setOnMyLocationButtonClickListener(new GoogleMap.OnMyLocationButtonClickListener(){
             @Override
             public boolean onMyLocationButtonClick()
