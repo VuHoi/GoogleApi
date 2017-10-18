@@ -3,7 +3,9 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/GoogleMapAPI.iml" filepath="$PROJECT_DIR$/GoogleMapAPI.iml" />
+      <module fileurl="file://H:\GitHub\GoogleApi\GoogleMapAPI\GoogleMapAPI\GoogleMapAPI.iml" filepath="H:\GitHub\GoogleApi\GoogleMapAPI\GoogleMapAPI\GoogleMapAPI.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://H:\GitHub\GoogleApi\GoogleMapAPI\GoogleMapAPI\app\app.iml" filepath="H:\GitHub\GoogleApi\GoogleMapAPI\GoogleMapAPI\app\app.iml" />
     </modules>
   </component>
 </project>
